@@ -6,25 +6,21 @@ function PatientInfo({ id }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-  const fetchUserData = async () => {
-    const currentUser = auth.currentUser;
+  const userRef = firestore.collection("users").doc(id);
 
-    if (currentUser) {
-      const userRef = firestore.collection("users").doc(id);
-      const userDoc = await userRef.get();
-
-      if (userDoc.exists) {
-        const userData = userDoc.data();
-        setUsers(userData);
-      } else {
-        console.log("User not found");
-      }
+  const unsubscribe = userRef.onSnapshot((userDoc) => {
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      setUsers(userData);
+    } else {
+      console.log("User not found");
     }
+  });
+
+  return () => {
+    unsubscribe();
   };
-
-  fetchUserData();
 }, [id]);
-
 
   return (
     <div>
@@ -68,28 +64,23 @@ function AllUsers({ id }) {
 const navigate = useNavigate();
 
 useEffect(() => {
-  const fetchAllUsers = () => {
-    const unsubscribe = firestore.collection("appointments")
-      .onSnapshot((snapshot) => {
-        const usersData = snapshot.docs
-          .map((appointment) => ({
-            id: appointment.id,
-            ...appointment.data(),
-          }))
-          .filter((user) => user.docId === id && user.status === "ongoing");
-
-        setUsers(usersData);
-      });
-    
-    return unsubscribe;
-  };
-
-  const unsubscribe = fetchAllUsers();
+  const usersRef = firestore.collection("appointments");
+  const unsubscribe = usersRef
+    .where("docId", "==", id)
+    .where("status", "==", "ongoing")
+    .onSnapshot((usersSnapshot) => {
+      const usersData = usersSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setUsers(usersData);
+    });
 
   return () => {
     unsubscribe();
   };
-}, []); 
+}, [id]);
+
 
 
   return (
@@ -127,23 +118,26 @@ useEffect(() => {
 
 function AppointmentList() {
   const navigate = useNavigate();
+  const [user, setUser] = useState([]);
   const [id, setID] = useState("");
 
   useEffect(() => {
-  const fetchUserData = async () => {
-    const currentUser = auth.currentUser;
+  const currentUser = auth.currentUser;
 
-    if (currentUser) {
-      const userRef = firestore.collection("users").doc(currentUser.uid);
-      const userDoc = await userRef.get();
-
-      if (!userDoc.exists) {
+  if (currentUser) {
+    const userRef = firestore.collection("users").doc(currentUser.uid);
+    const unsubscribe = userRef.onSnapshot((doc) => {
+      if (doc.exists) {
+        const userData = doc.data();
+        setUser(userData);
+        setID(currentUser.uid);
+      } else {
         console.log("User not found");
       }
-    }
-  };
+    });
 
-  fetchUserData();
+    return () => unsubscribe();
+  }
 }, []);
 
   const handleSignOut = () => {

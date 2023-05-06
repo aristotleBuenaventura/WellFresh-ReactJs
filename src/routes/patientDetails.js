@@ -4,25 +4,44 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 
-function Status({appointment_Id}){
-  const status = async (event) => {
-    event.preventDefault();
-    const user = auth.currentUser;
+function Status({ id }) {
+  const [confirm, setConfirm] = useState(false);
+  const navigate = useNavigate();
 
+  const handleConfirm = async () => {
+    setConfirm(false);
+    // same code as before
+    const user = auth.currentUser;
     if (user) {
       try {
-        await firestore.collection('users').doc(appointment_Id).update({
+        await firestore.collection('appointments').doc(id).update({
           status: 'done'
         });
-        alert('Your profile has been successfully updated!');
+        navigate(
+                  `/Home/HomeDoctor`
+                )
       } catch (error) {
         console.log('Error updating profile:', error);
       }
     }
   };
 
+  const status = async (event) => {
+    event.preventDefault();
+    setConfirm(true);
+  };
+
   return (
-    <button onClick={status}>Mark as Done</button>
+    <>
+      <button className="btn btn-primary" onClick={status}>Mark as Done</button>
+      {confirm && (
+        <div>
+          <p>Are you sure you want to mark this appointment as done?</p>
+          <button onClick={handleConfirm}>Yes</button>
+          <button onClick={() => setConfirm(false)}>No</button>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -167,12 +186,12 @@ function PatientDetails() {
             <h3 className="fw-bold mt-4">Note</h3>
           </div>
           <div className="col d-flex justify-content-end">
-            <button className="btn btn-success border mt-4 ">Add a Note {appointmentId}</button>
+            <button className="btn btn-success border mt-4 ">Add a Note</button>
           </div>
           <AppointmentNotes id={appointmentId} />
         </div>
         <div className="text-center mt-4">
-          <button className="btn btn-primary" onClick={() => Status(appointmentId)}>Mark as Done</button>
+          
           <Status id={appointmentId} />
         </div>
       </div>
