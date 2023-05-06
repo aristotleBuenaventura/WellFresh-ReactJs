@@ -1,0 +1,261 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+.card{    text-align: center;}
+p {
+    margin: 0;
+  }
+
+ 
+
+.title{
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 40px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+}
+
+.notice{
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 18px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+}
+.namebox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-items: center;
+    width: 400px;
+    height: 56px;
+    padding: 16px 223px 16px 20px;
+    border-radius: 28px;
+    box-sizing: border-box;
+    background-color: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+    box-shadow: 0px 5px 30px rgba(178, 178, 178, 0.2);
+    margin: 0 auto; /* this line centers the form horizontally */
+  }
+  
+
+  .frameName {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .document {
+    width: 24px;
+    height: 100%;
+  }
+  
+  .name {
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 14px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+  }
+
+  
+  .emailbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 400px;
+    height: 56px;
+    padding: 16px 227px 16px 20px;
+    border-radius: 28px;
+    box-sizing: border-box;
+    background-color: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+    box-shadow: 0px 5px 30px rgba(178, 178, 178, 0.2);
+    margin: 0 auto;
+  }
+  .frameEmail {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+  .userEmail {
+    width: 24px;
+    height: 100%;
+  }
+  
+  .email {
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 14px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+  }
+
+  .Inputform {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 400px;
+    height: 227px;
+    padding: 16px 202px 187px 20px;
+    border-radius: 28px;
+    box-sizing: border-box;
+    background-color: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 100%
+    );
+    box-shadow: 0px 5px 30px rgba(178, 178, 178, 0.2);
+    margin: 0 auto;
+  }
+  
+  .Inputform .input-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .Inputform textarea {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+  
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 14px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+  
+    height: 200px;
+    width: 350px; 
+   
+  }
+  
+  .react-icon {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: #61dafb;
+  }
+  
+
+
+  .button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 202px;
+    height: 64px;
+    padding: 20px 54px;
+    border-radius: 46px;
+    box-sizing: border-box;
+    background-color: rgba(81, 168, 255, 1);
+    box-shadow: 0px 1px 1px rgba(178, 178, 178, 0.2);
+    margin: 0 auto;
+    transition: transform 0.002s ease-in-out;
+  }
+  
+  .button:active {
+    transform: scale(0.95);
+  }
+  
+  .send {
+    width: 24px;
+    height: 100%;
+  }
+  
+  .submit {
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    line-height: 100%;
+    font-family: Poppins, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.32px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .button {
+      flex-direction: column;
+      width: 100%;
+      height: auto;
+      padding: 20px;
+    }
+  
+    .send {
+      width: 20%;
+      height: auto;
+      margin-right: 10px;
+    }
+  
+    .submit {
+      font-size: 14px;
+      letter-spacing: 0.28px;
+    }
+  }
+  
+  
+
+  
+
+  .card2 {
+    width: 400px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 28px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin: 0 auto;
+  }
+  
+  
+  .logo {
+    width: 100px;
+    height: 100px;
+    margin-right: 0px;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .card-text {
+    color: rgba(8, 12, 47, 0.65);
+    font-size: 14px;
+    line-height: 14px;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+    text-align: left;
+  }
+  
+  
+ 

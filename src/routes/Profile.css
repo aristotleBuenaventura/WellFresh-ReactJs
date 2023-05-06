@@ -1,0 +1,78 @@
+.profilescreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.card {
+  margin-bottom: 2rem;
+}
+
+.card-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profilescreen-header img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+.detailed {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #6c757d;
+  margin-right: 1rem;
+}
+
+p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.detailed a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+a:hover {
+  background-color: #0069d9;
+}
+
+.outline {
+  color: gray;
+  font-style: italic;
+}
+
+@media screen and (max-width: 768px) {
+  .details {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
