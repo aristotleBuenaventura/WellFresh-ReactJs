@@ -33,24 +33,21 @@ function PatientImage({ id }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const currentUser = auth.currentUser;
-
-      if (currentUser) {
-        const userRef = firestore.collection("users").doc(id);
-        const userDoc = await userRef.get();
-
-        if (userDoc.exists) {
-          const userData = userDoc.data();
-          setUsers(userData);
-        } else {
-          console.log("User not found");
-        }
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    const userRef = firestore.collection("users").doc(id);
+    const unsubscribe = userRef.onSnapshot((doc) => {
+      if (doc.exists) {
+        const userData = doc.data();
+        setUsers(userData);
+      } else {
+        console.log("User not found");
       }
-    };
+    });
+    return () => unsubscribe();
+  }
+}, [auth.currentUser, id]);
 
-    fetchUserData();
-  });
 
   return (
     <div>
