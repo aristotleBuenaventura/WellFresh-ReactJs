@@ -37,7 +37,7 @@ function App() {
           element={
             <Layout>
               <Routes>
-                <Route exact path="/" element={<LoginScreen />} />
+                <Route exact path="/Login" element={<LoginScreen />} />
                 <Route path="/Register" element={<RegisterScreen />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Home/HomePatient" element={<HomePatient />} />

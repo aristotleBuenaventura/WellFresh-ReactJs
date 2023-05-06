@@ -82,6 +82,18 @@ function Navbar() {
                   Contact
                 </NavLink>
               </li>
+
+              <li className="nav-item">
+                <NavLink
+                  to="/Login"
+                  className={({ isActive }) =>
+                    "nav-links" + (isActive ? " activated" : "")
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  Login
+                </NavLink>
+              </li>
             </ul>
           </div>
         </nav>

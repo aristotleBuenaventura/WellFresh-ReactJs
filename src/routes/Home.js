@@ -41,7 +41,7 @@ const Home = () => {
     auth
       .signOut()
       .then(() => {
-        navigate('/login');
+        navigate('/Login');
       })
       .catch((error) => alert(error.message));
   };
