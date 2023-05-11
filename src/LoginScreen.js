@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore } from './firebase';
-
-import HomeScreen from './HomeScreen';
-
-
-import { Card, Form, Button, Dropdown } from 'react-bootstrap';
+import { Card, Form, Button, Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -34,60 +33,59 @@ const LoginScreen = () => {
       console.log('Logged in successfully!');
     } catch (error) {
       console.log(error);
-
+      alert('Incorrect email or password'); // display an alert message
     }
   };
 
 
   return (
     <div className="container c-flex justify-content-center align-items-center h-100">
-    
-      <Card>
-        <Card.Header as="h3" className="text-center">
-          Login
-        </Card.Header>
-        <Card.Body>
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-              />
-            </Form.Group>
+      <Card className="d-flex flex-row" style={{ height: "100%" }}>
+        <Card.Body className="d-flex flex-row" style={{ height: "100%" }}>
+          <div className="w-50 d-flex flex-column justify-content-center" style={{ zIndex: 1, width: "50%" }}>
+            <div className="welcome-message mb-4">
+            <h1 className="text-bold mb-4">Sign in</h1>
+            <h5 className="text-muted mb-4">Welcome back!</h5>
+            </div>
+            <Form className="w-75 align-self-center">
+              <Form.Group controlId="formBasicEmail">
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mb-3"
+                />
+              </Form.Group>
+              <Form.Group controlId="formBasicPassword">
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mb-3"
+                />
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                onClick={handleLogin}
+                className="mb-3"
+              >
+                Sign In
+              </Button>
 
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-        <Button
-          variant="primary"
-          type="submit"
-          onClick={handleLogin}
-          className="mr-2"
-        >
-          Login
-        </Button>
-        <Button
-          variant="outline-primary"
-          type="submit"
-          onClick={() => navigate('/Register')}
-        >
-          Register
-        </Button>
-      </Form>
-    </Card.Body>
-  </Card>
-</div>
-);
+              <div className="mt-3">
+                <Button variant="link" href="/Register" style={{ color: "#393f81" }}>
+                  Don't have an account? Sign Up
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Card.Body>
+      </Card>
+    </div>
+  );
 };
 
 export default LoginScreen;
