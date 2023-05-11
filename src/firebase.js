@@ -5,13 +5,13 @@ import 'firebase/compat/storage';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDK4T_mUuINi2elL-PCQ72-fZZQJKdbrOo",
-  authDomain: "reactjs-aristotle.firebaseapp.com",
-  projectId: "reactjs-aristotle",
-  storageBucket: "reactjs-aristotle.appspot.com",
-  messagingSenderId: "68760721886",
-  appId: "1:68760721886:web:ad42e8728ce1fd986ba54f",
-  measurementId: "G-FBW5EGMJFW"
+  apiKey: "AIzaSyAYm9LfK5vbmzNV0ymQ_FgKsGMhDtH5Z_o",
+  authDomain: "wellfresh-f971a.firebaseapp.com",
+  projectId: "wellfresh-f971a",
+  storageBucket: "wellfresh-f971a.appspot.com",
+  messagingSenderId: "183131066828",
+  appId: "1:183131066828:web:375a565b4b0f9312ca0d69",
+  measurementId: "G-MC4R4GPMYT"
 };
 
 // Initialize Firebase
