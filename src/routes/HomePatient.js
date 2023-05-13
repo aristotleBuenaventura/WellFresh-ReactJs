@@ -90,14 +90,6 @@ function HomePatient() {
   }
 }, [auth.currentUser]);
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigate('/');
-      })
-      .catch((error) => alert(error.message));
-  };
 
   return (
     <div className="container mt-5">
@@ -111,8 +103,6 @@ function HomePatient() {
             <SearchBar/>
         </div>
         <AllUsers/>
-
-        <button onClick={handleSignOut}>Sign out</button>
       </div>
       
     </div>

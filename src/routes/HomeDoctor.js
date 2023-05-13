@@ -138,15 +138,6 @@ function HomeDoctor() {
 }, []);
 
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => alert(error.message));
-  };
-
   return (
     <div className="container mt-5">
       <div className="row">
@@ -169,8 +160,6 @@ function HomeDoctor() {
 
       <div className="row">
         <AllUsers id={id} />
-
-        <button onClick={handleSignOut}>Sign out</button>
       </div>
     </div>
   );
