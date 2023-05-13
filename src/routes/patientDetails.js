@@ -38,7 +38,7 @@ function Status({ id }) {
     <>
       <button className="btn btn-primary" onClick={handleShowModal}>Mark as Done</button>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton>m
           <Modal.Title>Confirm action</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to mark this appointment as done?</Modal.Body>
@@ -100,7 +100,7 @@ function AddNote({ id }) {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
+          <Button variant="success" onClick={handleAdd}>
             Add
           </Button>
         </Modal.Footer>
