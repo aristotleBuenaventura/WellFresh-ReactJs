@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 
 function Status({ id }) {
@@ -47,6 +48,114 @@ function Status({ id }) {
           </Button>
           <Button variant="primary" onClick={handleMarkAsDone}>
             Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+function AddNote({ id }) {
+  const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleCloseModal = () => setShowModal(false);
+
+
+  const handleAdd = async () => {
+    try {
+      // get the current appointment document from Firestore
+      const appointmentDoc = await firestore.collection('appointments').doc(id).get();
+      const appointmentData = appointmentDoc.data();
+
+      // update the notes array with the new note
+      const updatedNotes = [...appointmentData.notes, inputValue];
+
+      // update the appointment document with the new notes array
+      await firestore.collection('appointments').doc(id).update({
+        notes: updatedNotes
+      });
+    } catch (error) {
+      console.log('Error updating appointment notes:', error);
+    }
+    setInputValue("");
+    handleCloseModal();
+  };
+
+
+  return (
+    <>
+      <Button variant="secondary" className="btn btn-success" onClick={() => setShowModal(true)}>
+        Add a Note
+      </Button>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add a Note</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control type="text" placeholder="Enter the Note" value={inputValue} onChange={(e) => setInputValue(e.target.value)} style={{width: '100%', height: 'auto'}} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAdd}>
+            Add
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+}
+
+function EditNote({ id }) {
+  const [showModal, setShowModal] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleCloseModal = () => setShowModal(false);
+
+
+  const handleAdd = async () => {
+    try {
+      // get the current appointment document from Firestore
+      const appointmentDoc = await firestore.collection('appointments').doc(id).get();
+      const appointmentData = appointmentDoc.data();
+
+      // update the notes array with the new note
+      const updatedNotes = [...appointmentData.notes, inputValue];
+
+      // update the appointment document with the new notes array
+      await firestore.collection('appointments').doc(id).update({
+        notes: updatedNotes
+      });
+    } catch (error) {
+      console.log('Error updating appointment notes:', error);
+    }
+    setInputValue("");
+    handleCloseModal();
+  };
+
+
+  return (
+    <>
+      <Button variant="secondary" className="btn btn-success" onClick={() => setShowModal(true)}>
+        Add a Note
+      </Button>
+
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add a Note</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control type="text" placeholder="Enter the Note" value={inputValue} onChange={(e) => setInputValue(e.target.value)} style={{width: '100%', height: 'auto'}} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAdd}>
+            Add
           </Button>
         </Modal.Footer>
       </Modal>
@@ -239,7 +348,7 @@ function PatientDetails() {
             <h3 className="fw-bold mt-4">Note</h3>
           </div>
           <div className="col d-flex justify-content-end">
-            <button className="btn btn-success border mt-4 ">Add a Note</button>
+            <AddNote id={appointmentId} />
           </div>
           <AppointmentNotes id={appointmentId} />
         </div>
