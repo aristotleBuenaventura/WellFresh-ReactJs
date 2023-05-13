@@ -27,7 +27,7 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
     <div>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       {children}
-      <Footer />
+      <Footer  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
     </div>
   );
 }

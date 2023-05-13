@@ -1,11 +1,14 @@
 import React from 'react';
+
 import './Footer.css';
 import { Link } from 'react-router-dom';
 
-function Footer() {
+function Footer(props) {
+  const { isLoggedIn } = props;
   const currentYear = new Date().getFullYear();
 
   return (
+    isLoggedIn && (
     <footer className="_footer">
       <div className="container py-3">
         <div className="row">
@@ -20,6 +23,7 @@ function Footer() {
             <ul className="list-unstyled">
               <li><Link to="/home" className="text-decoration-none">Home</Link></li>
               <li><Link to="/about" className="text-decoration-none">About</Link></li>
+              {isLoggedIn ? <li><Link to="/appointmentHistoryPatient" className="text-decoration-none">Appointments</Link></li> : null}
               <li><Link to="/contact" className="text-decoration-none">Contact</Link></li>
             </ul>
           </div>
@@ -30,9 +34,9 @@ function Footer() {
             <p className="mb-2"><i className="bi bi-envelope-fill me-2"></i>wellfresh@gmail.com</p>
           </div>
         </div>
-  
       </div>
     </footer>
+      )
   );
 }
 
