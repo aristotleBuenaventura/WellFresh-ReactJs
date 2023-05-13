@@ -165,7 +165,7 @@ function EditProfilePage() {
                 placeholder="Phone Number"
               />
             </div>
-            {userRole === "Doctor" && (
+           {userRole === "Doctor" && (
   <div className="form-group">
     <label htmlFor="biography"></label>
     <textarea

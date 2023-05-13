@@ -17,12 +17,11 @@ import AppointmentHistoryDoctor from './routes/appointmentHistoryDoctor';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
-import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
 import ProfileDoctor from './routes/ProfileDoctor';
 
+function Layout({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-
-function Layout({ children, isLoggedIn, setIsLoggedIn }) {
   return (
     <div>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
@@ -33,23 +32,13 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
 }
 
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  
-
   return (
     <BrowserRouter>
-      <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+      <Layout>
         <Routes>
           <Route
             path="/"
-            element={
-              <LoginScreen
-                setIsLoggedIn={setIsLoggedIn}
-                isLoggedIn={isLoggedIn}
-              />
-            }
+            element={<LoginScreen />}
           />
           <Route path="/Register" element={<RegisterScreen />} />
           <Route path="/Home" element={<Home />} />
@@ -69,11 +58,9 @@ function App() {
           <Route path="/About" element={<About />} />
           <Route path="/EditProfilePage" element={<EditProfilePage />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
+          <Route path="/Contact" element={<Contact />} /> 
           <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
         </Routes>
-        
       </Layout>
     </BrowserRouter>
   );

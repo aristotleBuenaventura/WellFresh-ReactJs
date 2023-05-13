@@ -67,13 +67,17 @@ function AllUsers() {
 }
 
 function HomePatient() {
-    const navigate = useNavigate();
-    const [user, setUser] = useState([]);
+  const navigate = useNavigate();
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
-  const currentUser = auth.currentUser;
+    const currentUser = auth.currentUser;
 
-  if (currentUser) {
+    if (!currentUser) {
+      navigate('/');
+      return;
+    }
+
     const userRef = firestore.collection("users").doc(currentUser.uid);
     const unsubscribe = userRef.onSnapshot((userDoc) => {
       if (userDoc.exists) {
@@ -87,9 +91,7 @@ function HomePatient() {
     return () => {
       unsubscribe();
     };
-  }
-}, [auth.currentUser]);
-
+  }, [auth.currentUser, navigate]);
 
   return (
     <div className="container mt-5">

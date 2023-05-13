@@ -3,6 +3,7 @@ import { auth, firestore } from '../firebase';
 import { useEffect, useState } from 'react';
 import LoginScreen from '../LoginScreen';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -60,6 +61,7 @@ const Home = () => {
       <>
         <Navbar /> {/* Show the Navbar if user is logged in */}
         {navigate('./HomeDoctor')}
+        <Footer /> {/* Show the Footer */}
       </>
     );
   } else {
@@ -71,6 +73,7 @@ const Home = () => {
           <p>You are a patient!</p>
           <button onClick={handleSignOut}>Sign out</button>
         </div> */}
+        <Footer /> {/* Show the Footer */}
       </>
     );
   }

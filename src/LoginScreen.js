@@ -29,11 +29,11 @@ const LoginScreen = ({ isLoggedIn, setIsLoggedIn }) => {
       console.log('Logged in successfully!');
       setIsLoggedIn(true); // call setIsLoggedIn function passed down from parent
     } catch (error) {
-      console.log(error);
       alert('Incorrect email or password'); // display an alert message
+      console.log(error);
     }
   };
-
+  
   return (
     <div className="container c-flex justify-content-center align-items-center h-100">
       <Card className="d-flex flex-row" style={{ height: "100%" }}>
