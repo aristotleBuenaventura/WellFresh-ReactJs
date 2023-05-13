@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {auth, firestore,} from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+
 
 
 function SearchBar() {

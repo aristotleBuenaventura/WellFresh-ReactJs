@@ -3,6 +3,9 @@ import { auth, firestore} from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+
+
+
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -53,28 +56,55 @@ function Status({ id }) {
 
 function AppointmentNotes({ id }) {
   const [notes, setNotes] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [noteToDelete, setNoteToDelete] = useState(null);
 
   useEffect(() => {
-  const currentUser = auth.currentUser;
+    const currentUser = auth.currentUser;
 
-  if (currentUser) {
-    const userRef = firestore.collection("appointments").doc(id);
-    const unsubscribe = userRef.onSnapshot((doc) => {
-      if (doc.exists) {
-        const userData = doc.data();
-        setNotes(userData);
-      } else {
-        console.log("User not found");
-      }
-    });
+    if (currentUser) {
+      const userRef = firestore.collection("appointments").doc(id);
+      const unsubscribe = userRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          setNotes(userData);
+        } else {
+          console.log("User not found");
+        }
+      });
 
-    return () => unsubscribe();
-  }
-}, [id]);
-
+      return () => unsubscribe();
+    }
+  }, [id]);
 
   const handleDeleteNote = (note) => {
-    // Handle deleting the note here
+    setNoteToDelete(note);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDeleteNote = () => {
+  const userRef = firestore.collection("appointments").doc(id);
+  userRef.get().then((doc) => {
+    if (doc.exists) {
+      const notes = doc.data().notes;
+      const updatedNotes = notes.filter((note, index) => index !== noteToDelete);
+      userRef.update({
+        notes: updatedNotes
+      }).then(() => {
+        setShowDeleteModal(false);
+      }).catch((error) => {
+        console.error("Error removing note: ", error);
+      });
+    }
+  }).catch((error) => {
+    console.error("Error getting document: ", error);
+  });
+};
+
+
+  const handleCancelDeleteNote = () => {
+    setNoteToDelete(null);
+    setShowDeleteModal(false);
   };
 
   const handleEditNote = (note) => {};
@@ -84,23 +114,23 @@ function AppointmentNotes({ id }) {
       {notes.notes ? (
         <ul className="list-unstyled">
           <div className="row mt-4 ">
-            {notes.notes.map((notes) => (
+            {notes.notes.map((note, index) => (
               <div className="col-12 border border-secondary border-3 rounded me-5 mt-2 p-2">
                 <div className="row">
                   <div className="col ">
-                    <li key={notes}>{notes}</li>
+                    <li key={note}>{note}</li>
                   </div>
                   <div className="col">
                     <div className="d-flex justify-content-end">
                       <button
                         className="btn btn-danger me-3"
-                        onClick={() => handleDeleteNote(notes)}
+                        onClick={() => handleDeleteNote(index)}
                       >
                         Delete
                       </button>
                       <button
                         className="btn btn-success"
-                        onClick={() => handleEditNote(notes)}
+                        onClick={() => handleEditNote(note)}
                       >
                         Edit
                       </button>
@@ -112,9 +142,26 @@ function AppointmentNotes({ id }) {
           </div>
         </ul>
       ) : null}
+      <Modal show={showDeleteModal} onHide={handleCancelDeleteNote}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this note?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelDeleteNote}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDeleteNote}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
+
 
 function PatientDetails() {
   const location = useLocation();
