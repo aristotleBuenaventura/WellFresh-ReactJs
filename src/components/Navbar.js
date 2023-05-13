@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { GiRocketThruster } from "react-icons/gi";
@@ -15,6 +15,7 @@ function Navbar(props) {
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+  const [userRole, setUserRole] = useState(null);
 
   const handleLogout = () => {
     auth
@@ -25,6 +26,36 @@ function Navbar(props) {
       })
       .catch((error) => alert(error.message));
   };
+
+
+ useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        firestore
+          .collection("users")
+          .doc(user.uid)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              const userData = doc.data();
+              setUserRole(userData.role);
+            } else {
+              console.log("No such document!");
+            }
+          })
+          .catch((error) => {
+            console.log("Error getting document:", error);
+          });
+      } else {
+        // No user is signed in.
+        setUserRole(null);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
+
 
   if (!isLoggedIn) {
     return null;
@@ -37,11 +68,7 @@ function Navbar(props) {
         <IconContext.Provider value={{ color: "white" }}>
           <nav className="navbar">
             <div className="navbar-container container">
-              <Link
-                to="/"
-                className="navbar-logo"
-                onClick={closeMobileMenu}
-              >
+              <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
                 <GiRocketThruster className="navbar-icon" />
                 Well-Freshed
               </Link>
@@ -56,72 +83,107 @@ function Navbar(props) {
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
-                  >
-                    Home
-                  </NavLink>
-                </li>
-
+                    >
+                Home
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
+              >
+                About
+              </NavLink>
+            </li>
+            {userRole === "Patient" && (
+              <>
                 <li className="nav-item">
                   <NavLink
-                    to="/about"
+                    to="/Appointment"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    About
+                    Appointment
                   </NavLink>
                 </li>
+              </>
+            )}
+            {userRole === "Doctor" && (
+              <>
                 <li className="nav-item">
                   <NavLink
-                    to="/EditProfilePage"
+                    to="/Appointments"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Edit Profile
+                    Appointments
                   </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/Profile"
+                    to="/addAppoitnments"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Profile
+                    Add Appoitnments
                   </NavLink>
                 </li>
-
-                <li className="nav-item">
-                  <NavLink
-                    to="/contact"
-                    className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
-                    }
-                    onClick={closeMobileMenu}
-                  >
-                    Contact
-                  </NavLink>
-                </li>
-
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-    
-      {isLoggedIn && (
-        <button className="btn btn-outline-danger my-2 my-sm-0" onClick={handleLogout}>
-          Logout
-        </button>
-      )}
-    </nav>
-              </ul>
-            </div>
+              </>
+            )}
+            <li className="nav-item">
+              <NavLink
+                to="/EditProfilePage"
+                className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
+              >
+                Edit Profile
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/Profile"
+                className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
+              >
+                Profile
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
+              >
+                Contact
+              </NavLink>
+            </li>
+          </ul>
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <button className="btn btn-outline-danger my-2 my-sm-0" onClick={handleLogout}>
+              Logout
+            </button>
           </nav>
-        </IconContext.Provider>
-      )}
-    </>
-  );
+        </div>
+      </nav>
+    </IconContext.Provider>
+  )}
+</>
+);
 }
 
 export default Navbar;
