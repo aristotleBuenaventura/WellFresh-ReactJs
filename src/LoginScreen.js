@@ -6,14 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-
-const LoginScreen = () => {
+const LoginScreen = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
-
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -25,18 +22,17 @@ const LoginScreen = () => {
     return unsubscribe;
   }, [navigate]);
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await auth.signInWithEmailAndPassword(email, password);
       console.log('Logged in successfully!');
+      setIsLoggedIn(true); // call setIsLoggedIn function passed down from parent
     } catch (error) {
       console.log(error);
       alert('Incorrect email or password'); // display an alert message
     }
   };
-
 
   return (
     <div className="container c-flex justify-content-center align-items-center h-100">
@@ -44,8 +40,8 @@ const LoginScreen = () => {
         <Card.Body className="d-flex flex-row" style={{ height: "100%" }}>
           <div className="w-50 d-flex flex-column justify-content-center" style={{ zIndex: 1, width: "50%" }}>
             <div className="welcome-message mb-4">
-            <h1 className="text-bold mb-4">Sign in</h1>
-            <h5 className="text-muted mb-4">Welcome back!</h5>
+              <h1 className="text-bold mb-4">Sign in</h1>
+              <h5 className="text-muted mb-4">Welcome back!</h5>
             </div>
             <Form className="w-75 align-self-center">
               <Form.Group controlId="formBasicEmail">

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import About from './routes/About';
 import HomePatient from './routes/HomePatient'
 import DoctorDetails from './routes/doctorDetails';
@@ -21,45 +22,59 @@ import ProfileDoctor from './routes/ProfileDoctor';
 
 
 
-function Layout({ children }) {
+function Layout({ children, isLoggedIn, setIsLoggedIn }) {
   return (
     <div>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       {children}
+      <Footer />
     </div>
   );
 }
 
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <Layout>
-              <Routes>
-                <Route exact path="/" element={<LoginScreen />} />
-                <Route path="/Register" element={<RegisterScreen />} />
-                <Route path="/Home" element={<Home />} />
-                <Route path="/Home/HomePatient" element={<HomePatient />} />
-                <Route path="/Home/HomeDoctor" element={<HomeDoctor />} />
-                <Route path="/DoctorDetails" element={<DoctorDetails />} />
-                <Route path="/AppointmentList" element={<AppointmentList />} />
-                <Route path="/PatientDetails" element={<PatientDetails />} />
-                <Route path="/AppointmentHistoryPatient" element={<AppointmentHistoryPatient />} />
-                <Route path="/AppointmentHistoryDoctor" element={<AppointmentHistoryDoctor />} />
-                <Route path="/About" element={<About />} />
-                <Route path="/EditProfilePage" element={<EditProfilePage />} />
-                <Route path="/Profile" element={<Profile />} />
-                <Route path="/Contact" element={<Contact />} />
-                <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
-                <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
-              </Routes>
-            </Layout>
-          }
-        />
-      </Routes>
+      <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <LoginScreen
+                setIsLoggedIn={setIsLoggedIn}
+                isLoggedIn={isLoggedIn}
+              />
+            }
+          />
+          <Route path="/Register" element={<RegisterScreen />} />
+          <Route path="/Home" element={<Home />} />
+          <Route path="/Home/HomePatient" element={<HomePatient />} />
+          <Route path="/Home/HomeDoctor" element={<HomeDoctor />} />
+          <Route path="/DoctorDetails" element={<DoctorDetails />} />
+          <Route path="/AppointmentList" element={<AppointmentList />} />
+          <Route path="/PatientDetails" element={<PatientDetails />} />
+          <Route
+            path="/AppointmentHistoryPatient"
+            element={<AppointmentHistoryPatient />}
+          />
+          <Route
+            path="/AppointmentHistoryDoctor"
+            element={<AppointmentHistoryDoctor />}
+          />
+          <Route path="/About" element={<About />} />
+          <Route path="/EditProfilePage" element={<EditProfilePage />} />
+          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
+          <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
+        </Routes>
+        
+      </Layout>
     </BrowserRouter>
   );
 }

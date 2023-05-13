@@ -133,9 +133,14 @@ function Contact() {
             className="send"
           />
           <p className="submit">Submit</p>
+          
+  
         </button>
+   
       </div>
+  
     </div>
+
   );
   
 }

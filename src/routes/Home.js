@@ -2,11 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { auth, firestore } from '../firebase';
 import { useEffect, useState } from 'react';
 import LoginScreen from '../LoginScreen';
-
+import Navbar from '../components/Navbar';
 
 const Home = () => {
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false); // add loggedIn state
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -25,6 +26,7 @@ const Home = () => {
           const data = querySnapshot.docs[0].data();
           console.log('Document data:', data); // Logging the data to see if it's what we expect
           setUserRole(data.role);
+          setLoggedIn(true); // set loggedIn to true when user role is fetched
         } else {
           console.log('No such document!');
           alert('An error occurred, please try again later');
@@ -36,7 +38,6 @@ const Home = () => {
       });
   }, [navigate]);
 
-  
   const handleSignOut = () => {
     auth
       .signOut()
@@ -46,20 +47,31 @@ const Home = () => {
       .catch((error) => alert(error.message));
   };
 
+  if (!loggedIn) {
+    // User is not logged in
+    return <LoginScreen />;
+  }
+
   if (userRole === null) {
     // Waiting for user role to be fetched
     return <div>Loading...</div>;
   } else if (userRole === 'Doctor') {
     return (
-      navigate('./HomeDoctor')
+      <>
+        <Navbar /> {/* Show the Navbar if user is logged in */}
+        {navigate('./HomeDoctor')}
+      </>
     );
   } else {
     return (
-      navigate('./HomePatient')
-      // <div>
-      //   <p>You are a patient!</p>
-      //   <button onClick={handleSignOut}>Sign out</button>
-      // </div>
+      <>
+        <Navbar /> {/* Show the Navbar if user is logged in */}
+        {navigate('./HomePatient')}
+        {/* <div>
+          <p>You are a patient!</p>
+          <button onClick={handleSignOut}>Sign out</button>
+        </div> */}
+      </>
     );
   }
 };

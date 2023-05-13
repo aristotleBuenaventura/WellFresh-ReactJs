@@ -96,7 +96,7 @@ const RegisterScreen = () => {
         .then(() => {
           console.log("User data saved to Firestore");
           alert("Registered successfully!");
-          navigate("/Login");
+          navigate("/");
         })
         .catch((error) => {
           console.log(error);
@@ -261,7 +261,7 @@ const RegisterScreen = () => {
           <div className="mt-3">
             <Button
               variant="link"
-              href="/Login"
+              href="/"
               style={{ color: "#393f81" }}
             >
               ALready have an Account? Sign In
