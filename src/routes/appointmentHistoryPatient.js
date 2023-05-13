@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase";
-import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
 
 function DoctorInfo({ id }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-  const currentUser = auth.currentUser;
+    const currentUser = auth.currentUser;
 
-  if (currentUser) {
-    const userRef = firestore.collection("users").doc(id);
-    const unsubscribe = userRef.onSnapshot((userDoc) => {
-      if (userDoc.exists) {
-        const userData = userDoc.data();
-        setUsers(userData);
-      } else {
-        console.log("User not found");
-      }
-    });
-    return unsubscribe;
-  }
-}, [id]);
+    if (currentUser) {
+      const userRef = firestore.collection("users").doc(id);
+      const unsubscribe = userRef.onSnapshot((userDoc) => {
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          setUsers(userData);
+        } else {
+          console.log("User not found");
+        }
+      });
+      return unsubscribe;
+    }
+  }, [id]);
 
   return (
     <div>
@@ -34,35 +34,47 @@ function DoctorInfo({ id }) {
 
 function AllUsers({ id }) {
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
+  const [selectedNotes, setSelectedNotes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-  const fetchAllUsers = async () => {
-    const usersRef = firestore.collection("appointments");
-    
-    usersRef.onSnapshot((querySnapshot) => {
-      const usersData = [];
-      querySnapshot.forEach((doc) => {
-        const appointment = doc.data();
-        if (appointment.patientId === id && appointment.status === "done") {
-          usersData.push({ id: doc.id, ...appointment });
-        }
-      });
-      setUsers(usersData);
-    });
+  const handleViewNotes = (notes) => {
+    setSelectedNotes(notes);
+    setShowModal(true); // Show the modal when notes are selected
   };
 
-  fetchAllUsers();
-}, [id]);
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      const usersRef = firestore.collection("appointments");
 
+      usersRef.onSnapshot((querySnapshot) => {
+        const usersData = [];
+        querySnapshot.forEach((doc) => {
+          const appointment = doc.data();
+          if (appointment.patientId === id && appointment.status === "done") {
+            usersData.push({ id: doc.id, ...appointment });
+          }
+        });
+        setUsers(usersData);
+      });
+    };
 
+    fetchAllUsers();
+  }, [id]);
+
+  const handleCloseModal = () => {
+    setSelectedNotes([]); // Clear the selected notes
+    setShowModal(false); // Hide the modal
+  };
 
   return (
-    <div>
+    <>
       <ul className="text-center list-unstyled row w-100">
         {users.map((user) => (
           <li key={user.id} className="col-6 p-2">
-            <button className="btn border">
+            <button
+              className="btn border"
+              onClick={() => handleViewNotes(user.notes)}
+            >
               <div className="row">
                 <div className="col">
                   <p className="fw-bold">
@@ -79,9 +91,31 @@ function AllUsers({ id }) {
           </li>
         ))}
       </ul>
-    </div>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Appointment Notes</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedNotes.length > 0 ? (
+            <ul>
+              {selectedNotes.map((note, index) => (
+                <li key={index}>{note}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No Notes Available</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
+
 
 function AppointmentHistoryPatient() {
   const location = useLocation();
@@ -91,24 +125,24 @@ function AppointmentHistoryPatient() {
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-  const fetchUserData = () => {
-    const currentUser = auth.currentUser;
+    const fetchUserData = () => {
+      const currentUser = auth.currentUser;
 
-    if (currentUser) {
-      const userRef = firestore.collection("users").doc(id);
-      userRef.onSnapshot((userPatient) => {
-        if (userPatient.exists) {
-          const userData = userPatient.data();
-          setUser(userData);
-        } else {
-          console.log("User not found");
-        }
-      });
-    }
-  };
+      if (currentUser) {
+        const userRef = firestore.collection("users").doc(id);
+        userRef.onSnapshot((userPatient) => {
+          if (userPatient.exists) {
+            const userData = userPatient.data();
+            setUser(userData);
+          } else {
+            console.log("User not found");
+          }
+        });
+      }
+    };
 
-  fetchUserData();
-}, [auth.currentUser, firestore, id]);
+    fetchUserData();
+  }, [auth.currentUser, firestore, id]);
 
   return (
     <div className="container mt-5">

@@ -16,6 +16,8 @@ import AppointmentHistoryDoctor from './routes/appointmentHistoryDoctor';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
+import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
+import ProfileDoctor from './routes/ProfileDoctor';
 
 
 
@@ -37,7 +39,7 @@ function App() {
           element={
             <Layout>
               <Routes>
-                <Route exact path="/Login" element={<LoginScreen />} />
+                <Route exact path="/" element={<LoginScreen />} />
                 <Route path="/Register" element={<RegisterScreen />} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Home/HomePatient" element={<HomePatient />} />
@@ -51,6 +53,8 @@ function App() {
                 <Route path="/EditProfilePage" element={<EditProfilePage />} />
                 <Route path="/Profile" element={<Profile />} />
                 <Route path="/Contact" element={<Contact />} />
+                <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
+                <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
               </Routes>
             </Layout>
           }

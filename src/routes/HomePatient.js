@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {auth, firestore,} from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
 
 
 function SearchBar() {
@@ -27,7 +28,7 @@ function AllUsers() {
 
   useEffect(() => {
   const usersRef = firestore.collection("users");
-  const unsubscribe = usersRef.where("role", "==", "doctor").onSnapshot((usersSnapshot) => {
+  const unsubscribe = usersRef.where("role", "==", "Doctor").onSnapshot((usersSnapshot) => {
     const usersData = usersSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data()

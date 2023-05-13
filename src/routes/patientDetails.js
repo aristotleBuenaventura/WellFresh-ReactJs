@@ -3,47 +3,53 @@ import { auth, firestore} from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 
 function Status({ id }) {
-  const [confirm, setConfirm] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const handleConfirm = async () => {
-    setConfirm(false);
-    // same code as before
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        await firestore.collection('appointments').doc(id).update({
-          status: 'done'
-        });
-        navigate(
-                  `/Home/HomeDoctor`
-                )
-      } catch (error) {
-        console.log('Error updating profile:', error);
-      }
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleMarkAsDone = async () => {
+    try {
+      await firestore.collection('appointments').doc(id).update({
+        status: 'done'
+      });
+      navigate('/Home/HomeDoctor');
+    } catch (error) {
+      console.log('Error updating profile:', error);
     }
+    handleCloseModal();
   };
 
-  const status = async (event) => {
+  const handleShowModal = (event) => {
     event.preventDefault();
-    setConfirm(true);
+    setShowModal(true);
   };
 
   return (
     <>
-      <button className="btn btn-primary" onClick={status}>Mark as Done</button>
-      {confirm && (
-        <div>
-          <p>Are you sure you want to mark this appointment as done?</p>
-          <button onClick={handleConfirm}>Yes</button>
-          <button onClick={() => setConfirm(false)}>No</button>
-        </div>
-      )}
+      <button className="btn btn-primary" onClick={handleShowModal}>Mark as Done</button>
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm action</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to mark this appointment as done?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleMarkAsDone}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
-};
+}
 
 function AppointmentNotes({ id }) {
   const [notes, setNotes] = useState([]);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, firestore, storage } from '../firebase';
 import './EditProfilePage.css';
 
-function EditProfilePage() {
+function EditProfilePageDoctor() {
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -84,7 +84,7 @@ function EditProfilePage() {
   
   return (
     <div className="card">
-      
+      <p>Doctor's Edit Profile</p>
      <h5 className="card-title" style={{textAlign: 'center'}}>
   <i className="fas fa-user" style={{marginRight: '10px'}}></i>Edit Profile
 </h5>
@@ -168,5 +168,5 @@ function EditProfilePage() {
 );
 }
 
-export default EditProfilePage;
+export default EditProfilePageDoctor;
              
