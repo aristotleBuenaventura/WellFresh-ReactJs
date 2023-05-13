@@ -46,7 +46,7 @@ function Status({ id }) {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleMarkAsDone}>
+          <Button variant="success" onClick={handleMarkAsDone}>
             Yes
           </Button>
         </Modal.Footer>
@@ -109,43 +109,44 @@ function AddNote({ id }) {
   );
 }
 
-function EditNote({ id }) {
+function EditNote({ id, index, currentValue }) {
   const [showModal, setShowModal] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(currentValue);
 
   const handleCloseModal = () => setShowModal(false);
 
+  const handleEdit = async () => {
+  try {
+    // get the current appointment document from Firestore
+    const appointmentRef = await firestore.collection('appointments').doc(id);
+    const appointmentDoc = await appointmentRef.get();
+    const appointmentData = appointmentDoc.data();
 
-  const handleAdd = async () => {
-    try {
-      // get the current appointment document from Firestore
-      const appointmentDoc = await firestore.collection('appointments').doc(id).get();
-      const appointmentData = appointmentDoc.data();
+    // update the notes array with the new note
+    const updatedNotes = [...appointmentData.notes];
+    updatedNotes[index] = inputValue;
 
-      // update the notes array with the new note
-      const updatedNotes = [...appointmentData.notes, inputValue];
-
-      // update the appointment document with the new notes array
-      await firestore.collection('appointments').doc(id).update({
-        notes: updatedNotes
-      });
-    } catch (error) {
-      console.log('Error updating appointment notes:', error);
-    }
-    setInputValue("");
-    handleCloseModal();
-  };
+    // update the appointment document with the new notes array
+    await appointmentRef.update({
+      notes: updatedNotes
+    });
+  } catch (error) {
+    console.log('Error updating appointment notes:', error);
+  }
+  setInputValue("");
+  handleCloseModal();
+};
 
 
   return (
     <>
       <Button variant="secondary" className="btn btn-success" onClick={() => setShowModal(true)}>
-        Add a Note
+        Edit
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Add a Note</Modal.Title>
+          <Modal.Title>Edit a Note</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Control type="text" placeholder="Enter the Note" value={inputValue} onChange={(e) => setInputValue(e.target.value)} style={{width: '100%', height: 'auto'}} />
@@ -154,8 +155,8 @@ function EditNote({ id }) {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
-            Add
+          <Button variant="success" onClick={handleEdit}>
+            Update
           </Button>
         </Modal.Footer>
       </Modal>
@@ -216,7 +217,7 @@ function AppointmentNotes({ id }) {
     setShowDeleteModal(false);
   };
 
-  const handleEditNote = (note) => {};
+
 
   return (
     <div>
@@ -237,12 +238,7 @@ function AppointmentNotes({ id }) {
                       >
                         Delete
                       </button>
-                      <button
-                        className="btn btn-success"
-                        onClick={() => handleEditNote(note)}
-                      >
-                        Edit
-                      </button>
+                    <EditNote id={id} index={index} currentValue={note}/>
                     </div>
                   </div>
                 </div>
