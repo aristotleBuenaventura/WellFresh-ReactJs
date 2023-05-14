@@ -33,25 +33,24 @@ function PatientImage({ id }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-  const currentUser = auth.currentUser;
-  if (currentUser) {
-    const userRef = firestore.collection("users").doc(id);
-    const unsubscribe = userRef.onSnapshot((doc) => {
-      if (doc.exists) {
-        const userData = doc.data();
-        setUsers(userData);
-      } else {
-        console.log("User not found");
-      }
-    });
-    return () => unsubscribe();
-  }
-}, [auth.currentUser, id]);
-
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      const userRef = firestore.collection("users").doc(id);
+      const unsubscribe = userRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          setUsers(userData);
+        } else {
+          console.log("User not found");
+        }
+      });
+      return () => unsubscribe();
+    }
+  }, [auth.currentUser, id]);
 
   return (
-    <div>
-      <img className="w-50" src={users.imageUrl} alt="My Image" />
+    <div style={{ width: '150px', height: '150px' }}>
+      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={users.imageUrl} alt="My Image" />
     </div>
   );
 }
@@ -147,11 +146,11 @@ function HomeDoctor() {
           </h1>
         </div>
           <div className="col col-sm-6 col-md-4">
-            <button onClick={() =>
-              navigate(
-                `/AddAppointments`
-              )
-            } className="btn btn-primary me-4"> Schedule</button>
+            <button  className="btn btn-primary me-4" onClick={() =>
+                navigate(
+                  `/AddAppointments`
+                )
+              }> Schedule</button>
           </div>
           <div className="col col-sm-6 col-md-4">
             <button onClick={() =>

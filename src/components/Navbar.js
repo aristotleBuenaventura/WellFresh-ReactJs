@@ -7,11 +7,15 @@ import { IconContext } from "react-icons/lib";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { auth, firestore } from '../firebase';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 
 function Navbar(props) {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = props;
   const [click, setClick] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
@@ -26,6 +30,9 @@ function Navbar(props) {
       })
       .catch((error) => alert(error.message));
   };
+
+  const handleClose = () => setShowLogoutModal(false);
+  const handleShow = () => setShowLogoutModal(true);
 
 
  useEffect(() => {
@@ -68,15 +75,16 @@ function Navbar(props) {
         <IconContext.Provider value={{ color: "white" }}>
           <nav className="navbar">
             <div className="navbar-container container">
-              <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                <GiRocketThruster className="navbar-icon" />
-                Well-Freshed
+              <Link to="/" className="navbar-logo mt-4 " onClick={closeMobileMenu}>
+                {/* <GiRocketThruster className="navbar-icon" />
+                <img src={logo} className="img-fluid" alt="Wellfresh" width="50" height="50" /> */}
+                <p className="h3">Well Fresh Dental Clinic</p>
               </Link>
               <div className="menu-icon" onClick={handleClick}>
                 {click ? <FaTimes /> : <FaBars />}
               </div>
               <ul className={click ? "nav-menu active" : "nav-menu"}>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <NavLink
                     to="/home"
                     className={({ isActive }) =>
@@ -86,18 +94,37 @@ function Navbar(props) {
                     >
                 Home
               </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-              >
-                About
-              </NavLink>
-            </li>
+            </li> */}
+            {userRole === "Doctor" && (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to="/home/HomeDoctor"
+                    className={({ isActive }) =>
+                      "nav-links" + (isActive ? " activated" : "")
+                    }
+                    onClick={closeMobileMenu}
+                  >
+                    Home
+                  </NavLink>
+                </li>
+              </>
+            )}
+            {userRole === "Patient" && (
+              <>
+                <li className="nav-item">
+                  <NavLink
+                    to="/home/HomePatient"
+                    className={({ isActive }) =>
+                      "nav-links" + (isActive ? " activated" : "")
+                    }
+                    onClick={closeMobileMenu}
+                  >
+                    Home
+                  </NavLink>
+                </li>
+              </>
+            )}
             {userRole === "Patient" && (
               <>
                 <li className="nav-item">
@@ -117,7 +144,7 @@ function Navbar(props) {
               <>
                 <li className="nav-item">
                   <NavLink
-                    to="/Appointments"
+                    to="/appointmentList"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
@@ -172,16 +199,35 @@ function Navbar(props) {
                 Contact
               </NavLink>
             </li>
+            <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) =>
+                      "nav-links" + (isActive ? " activated" : "")
+                    }
+                    onClick={handleShow}
+                  >
+                    Logout
+                  </NavLink>
+                </li>
           </ul>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <button className="btn btn-outline-danger my-2 my-sm-0" onClick={handleLogout}>
-              Logout
-            </button>
-          </nav>
         </div>
       </nav>
     </IconContext.Provider>
   )}
+  <Modal show={showLogoutModal} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Logout Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to logout?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="success" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
 </>
 );
 }

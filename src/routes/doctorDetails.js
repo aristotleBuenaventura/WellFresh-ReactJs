@@ -11,8 +11,6 @@ function DoctorDetails() {
   const searchParams = new URLSearchParams(location.search);
 
   const id = searchParams.get("docId");
-
-  const navigate = useNavigate();
   const [user, setUser] = useState([]);
 
   const [sched, setSched] = useState();
@@ -110,6 +108,7 @@ function DoctorDetails() {
 
 function ConfirmAppointment({ docId, apmt }) {
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -134,6 +133,7 @@ function ConfirmAppointment({ docId, apmt }) {
     }).catch((error) => {
       console.error("Error booking appointment: ", error);
     })
+    navigate('/Home/HomePatient');
   };
 
   return (

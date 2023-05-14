@@ -51,7 +51,7 @@ function AllUsers() {
             <button className="btn border" onClick={() => navigate(`/doctorDetails/?docId=${user.id}`)}>
         <div className='row '>
             <div className='col-12 col-lg-6'>
-            <img className='w-25' src={user.imageUrl} alt="My Image" />  
+            <img className='w-50' src={user.imageUrl} alt="My Image" />  
             </div>
             <div className='col'>
             <p>Dr. {user.lastname} {user.firstname}</p>

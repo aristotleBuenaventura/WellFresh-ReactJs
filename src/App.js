@@ -18,16 +18,15 @@ import AddAppointments from './routes/AddAppointments';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
-// import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
-// import ProfileDoctor from './routes/ProfileDoctor';
+
 
 
 function Layout({ children, isLoggedIn, setIsLoggedIn }) {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       {children}
-      <Footer  isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      {/* <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} style={{ marginTop: "auto" }} /> */}
     </div>
   );
 }
@@ -71,8 +70,6 @@ function App() {
           <Route path="/EditProfilePage" element={<EditProfilePage />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Contact" element={<Contact />} />
-          <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
-          <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
         </Routes>
         
       </Layout>

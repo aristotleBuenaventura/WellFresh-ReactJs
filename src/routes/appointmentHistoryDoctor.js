@@ -55,8 +55,8 @@ function PatientImage({ id }) {
 
 
   return (
-    <div>
-      <img className="w-50" src={users.imageUrl} alt="My Image" />
+    <div style={{ width: '150px', height: '150px' }}>
+      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={users.imageUrl} alt="My Image" />
     </div>
   );
 }
@@ -136,16 +136,6 @@ function AppointmentHistoryDoctor() {
   }
 }, []);
 
-
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => alert(error.message));
-  };
-
   return (
     <div className="container mt-5">
     <div className="row">
@@ -157,8 +147,6 @@ function AppointmentHistoryDoctor() {
       </div>
       <div className="row">
         <AllUsers id={id} />
-
-        <button onClick={handleSignOut}>Sign out</button>
       </div>
     </div>
   );

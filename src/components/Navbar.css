@@ -117,7 +117,7 @@
     display: table;
   }
 
-  .nav-links:hover {
+  /* .nav-links:hover {
     color: black;
     transform: scale(1.2);
     transition: all 0.3s ease;
@@ -125,7 +125,7 @@
 
   .nav-item:hover {
     border: none;
-  }
+  } */
 
   .nav-item {
     width: 100%;
