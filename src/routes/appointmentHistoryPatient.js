@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase";
 import { useLocation } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
+import dummy from '../assets/dummy.png'
 
 function DoctorInfo({ id }) {
   const [users, setUsers] = useState([]);
@@ -144,12 +145,14 @@ function AppointmentHistoryPatient() {
     fetchUserData();
   }, [auth.currentUser, firestore, id]);
 
+  const imgSrc = user.imageUrl ? user.imageUrl : dummy;
+
   return (
     <div className="container mt-5">
       <h1>Patient's History</h1>
       <div className="row ">
         <div className="col-12 col-md-6">
-          <img className="w-50" src={user.imageUrl} alt="My Image" />
+          <img className="w-50" src={imgSrc} alt="My Image" />
         </div>
         <div className="col-6">
           <p className="fw-bold h3">
