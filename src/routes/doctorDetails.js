@@ -108,7 +108,7 @@ function DoctorDetails() {
         ) : null}
       </div>
 
-      {sched ? (
+      {sched >= 0 ? (
         <ConfirmAppointment docId={id} apmt={user.date[sched].toDate()} />
       ) : null}
     </div>
