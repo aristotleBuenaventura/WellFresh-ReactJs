@@ -29,13 +29,14 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
         {children}
       </div>
       {/* <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} style={{ bottom: "0", width: "100%" }} /> */}
+ 
     </div>
   );
 }
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   
 

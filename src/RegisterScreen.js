@@ -5,6 +5,8 @@ import { auth, firestore } from "./firebase";
 import { Card, Form, Button, Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import './RegisterScreen.css';
+
 const RegisterScreen = () => {
   const navigate = useNavigate();
 

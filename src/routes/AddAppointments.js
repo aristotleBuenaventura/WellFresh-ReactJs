@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase";
 
-function AllSchedules() {
-  const [apmts, setApmts] = useState([]);
-  const currentUser = auth.currentUser;
-
+function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
   const formatDate = (dateString) => {
-    const options = { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }
-    return new Date(dateString).toLocaleDateString(undefined, options)
-  }
-
-  useEffect(() => {
-    const apmtsRef = firestore.collection("users").doc(currentUser.uid);
-    const unsubscribe = apmtsRef.onSnapshot((doc) => {
-      if (doc.exists) {
-        const tmpApmts = doc.data();
-        setApmts(tmpApmts);
-      }
-      else {
-        console.log("User not found");
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+    const options = { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div>
-      {apmts.date ? (
+      {schedules.length > 0 ? (
         <div className="text-center row">
-          {apmts.date.map((apmt, index) => (
+          {schedules.map((schedule, index) => (
             <div key={index} className="border col-3 p-2">
-              <p className="h6 fw-normal">{formatDate(apmt.toDate())}</p>
+              <p className="h6 fw-normal">{formatDate(schedule.toDate())}</p>
+              <div className="btn-group" role="group" aria-label="Schedule Actions">
+                <button type="button" className="btn btn-success" onClick={() => handleEditSchedule(index)}>Edit</button>
+                <button type="button" className="btn btn-danger" onClick={() => handleDeleteSchedule(index)}>Delete</button>
+              </div>
             </div>
           ))}
         </div>
@@ -43,8 +29,11 @@ function AllSchedules() {
 function AddAppointments() {
   const [user, setUser] = useState([]);
   const [id, setID] = useState("");
+  const [schedules, setSchedules] = useState([]);
+  const [schedule, setSchedule] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [updatedSchedules, setUpdatedSchedules] = useState([]);
 
-  const [schedule, setSchedule] = useState('');
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -56,6 +45,7 @@ function AddAppointments() {
           const userData = doc.data();
           setUser(userData);
           setID(currentUser.uid);
+          setSchedules(userData.date || []);
         } else {
           console.log("User not found");
         }
@@ -65,56 +55,82 @@ function AddAppointments() {
     }
   }, []);
 
-  const handleAddAppointment = async (e) => {
+  const handleAddSchedule = async (e) => {
     e.preventDefault();
 
-    if (schedule !== '') {
-      const currentUser = await auth.currentUser.uid;
-      const userDoc = await firestore.collection("users").doc(currentUser).get();
-      const userData = userDoc.data();
-
+    if (schedule !== "") {
       const timestamp = new Date(schedule);
-      const userRef = firestore.collection("users").doc(currentUser);
+      const userRef = firestore.collection("users").doc(id);
 
-      const updatedScheds = [...userData.date, timestamp];
+      if (editIndex !== null) {
+        const updatedSchedules = [...schedules];
+        updatedSchedules[editIndex] = timestamp;
 
-      await userRef.update({
-        date: updatedScheds,
-      }).then(() => {
-        console.log("Schedule added!");
-      }).catch((error) => {
-        console.error("Error adding schedule: ", error);
-      });
-    }
-    else {
+        await userRef.update({
+          date: updatedSchedules,
+        })
+          .then(() => {
+            console.log("Schedule updated!");
+            setEditIndex(null);
+          })
+          .catch((error) => {
+            console.error("Error updating schedule: ", error);
+          });
+      } else {
+        const updatedSchedules = [...schedules, timestamp];
+
+        await userRef.update({
+          date: updatedSchedules,
+        })
+          .then(() => {
+            console.log("Schedule added!");
+          })
+          .catch((error) => {
+            console.error("Error adding schedule: ", error);
+          });
+      }
+
+      setSchedules(updatedSchedules);
+      setSchedule("");
+    } else {
       console.log("Error: Schedule not set");
     }
-  }
+  };
+
+  const handleEditSchedule = (index) => {
+    setEditIndex(index);
+    setSchedule(schedules[index].toDate().toISOString().slice(0, -8));
+  };
+
+  const handleDeleteSchedule = async (index) => {
+    const userRef = firestore.collection("users").doc(id);
+    const updatedSchedules = [...schedules];
+    updatedSchedules.splice(index, 1);
+
+    await userRef.update({
+      date: updatedSchedules,
+    })
+      .then(() => {
+        console.log("Schedule deleted!");
+      })
+      .catch((error) => {
+        console.error("Error deleting schedule: ", error);
+      });
+
+    setSchedules(updatedSchedules);
+  };
 
   return (
-    <div className="container mt-5">
-      <form>
-        <div className="row mb-5">
-          <p className="h3">Add a schedule</p>
-          <div className="col-5 me-5">
-            <input
-              type="datetime-local"
-              className="form-control"
-              placeholder="Date and time"
-              value={schedule}
-              onChange={(e) => setSchedule(e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-2 ms-5">
-            <button type="submit" className="btn btn-primary" onClick={handleAddAppointment}>Add schedule</button>
-          </div>
+    <div className="container">
+      <h1 className="text-center">Add Appointments</h1>
+      <form onSubmit={handleAddSchedule}>
+        <div className="form-group mb-3">
+          <label htmlFor="schedule">Schedule:</label>
+          <input type="datetime-local" className="form-control" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
         </div>
+        <button type="submit" className="btn btn-primary">{editIndex !== null ? "Update" : "Add"}</button>
       </form>
-      <div className="row">
-        <p className="h3">Your schedules</p>
-        <AllSchedules />
-      </div>
+      <AllSchedules schedules={schedules} handleEditSchedule={handleEditSchedule} handleDeleteSchedule={handleDeleteSchedule} />
     </div>
   );
 }
