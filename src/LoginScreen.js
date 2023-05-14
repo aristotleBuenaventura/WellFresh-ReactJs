@@ -4,6 +4,7 @@ import { auth, firestore } from './firebase';
 import { Card, Form, Button, Carousel } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import './LoginScreen.css';
 
 
 const LoginScreen = ({ isLoggedIn, setIsLoggedIn }) => {
