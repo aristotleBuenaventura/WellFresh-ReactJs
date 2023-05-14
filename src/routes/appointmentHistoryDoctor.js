@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import dummy from '../assets/dummy.png'
 
 function PatientInfo({ id }) {
   const [users, setUsers] = useState([]);
@@ -54,9 +55,11 @@ function PatientImage({ id }) {
 }, [id]);
 
 
+  const imgSrc = users.imageUrl ? users.imageUrl : dummy;
+
   return (
     <div style={{ width: '150px', height: '150px' }}>
-      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={users.imageUrl} alt="My Image" />
+      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={imgSrc} alt={imgSrc} />
     </div>
   );
 }
