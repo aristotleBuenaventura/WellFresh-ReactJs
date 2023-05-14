@@ -3,7 +3,6 @@ import {auth, firestore,} from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
 
-
 function SearchBar() {
   const [query, setQuery] = useState('');
   return (
@@ -51,7 +50,9 @@ function AllUsers() {
             <button className="btn border" onClick={() => navigate(`/doctorDetails/?docId=${user.id}`)}>
         <div className='row '>
             <div className='col-12 col-lg-6'>
-            <img className='w-50' src={user.imageUrl} alt="My Image" />  
+            <div style={{ width: '150px', height: '150px' }}>
+              <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={user.imageUrl} alt={user.imageUrl} />
+            </div> 
             </div>
             <div className='col'>
             <p>Dr. {user.lastname} {user.firstname}</p>
@@ -101,9 +102,9 @@ function HomePatient() {
         <div className='col-6'>
             <h1>Let’s find your top doctor!</h1>
         </div>
-        <div className='col-12 col-sm-12 col-md-6'>
+        {/* <div className='col-12 col-sm-12 col-md-6'>
             <SearchBar/>
-        </div>
+        </div> */}
         <AllUsers/>
       </div>
       

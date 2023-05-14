@@ -3,8 +3,8 @@ import { auth, firestore } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 function DoctorDetails() {
   const location = useLocation();
@@ -16,32 +16,36 @@ function DoctorDetails() {
   const [sched, setSched] = useState();
 
   const formatDate = (dateString) => {
-    const options = { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }
-    return new Date(dateString).toLocaleDateString(undefined, options)
-  }
-
-  useEffect(() => {
-  const fetchUserData = async () => {
-    const currentUser = auth.currentUser;
-
-    if (currentUser) {
-      const userRef = firestore.collection("users").doc(id);
-
-      userRef.onSnapshot((doc) => {
-        if (doc.exists) {
-          const userData = doc.data();
-          setUser(userData);
-        } else {
-          console.log("User not found");
-        }
-      });
-    }
+    const options = {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  fetchUserData();
-}, [id]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const currentUser = auth.currentUser;
 
+      if (currentUser) {
+        const userRef = firestore.collection("users").doc(id);
 
+        userRef.onSnapshot((doc) => {
+          if (doc.exists) {
+            const userData = doc.data();
+            setUser(userData);
+          } else {
+            console.log("User not found");
+          }
+        });
+      }
+    };
+
+    fetchUserData();
+  }, [id]);
 
   return (
     <div className="container mt-5">
@@ -82,23 +86,28 @@ function DoctorDetails() {
       <div>
         <h3 className="fw-bold mt-4">Schedules</h3>
         {user.date ? (
-            <div className="text-center row">
-              {user.date.map((apmt, index) => (
+          <div className="text-center row">
+            {user.date
+              .map((apmt) => apmt.toDate())
+              .sort((a, b) => a.getTime() - b.getTime())
+              .map((apmt, index) => (
                 <button
-                className={
-                  "border-0 rounded col-3 m-1" + (sched === index ? " text-white bg-primary" : " bg-light")
-                }
-                key={index}
-                onClick={() => setSched(index)}
+                  className={
+                    "border-0 rounded col-3 m-1" +
+                    (sched === index ? " text-white bg-primary" : " bg-light")
+                  }
+                  key={index}
+                  onClick={() => setSched(index)}
                 >
                   <div className="p-2">
-                    <p className="h6 fw-normal">{formatDate(apmt.toDate())}</p>
+                    <p className="h6 fw-normal">{formatDate(apmt)}</p>
                   </div>
                 </button>
               ))}
-            </div>
+          </div>
         ) : null}
       </div>
+
       {sched ? (
         <ConfirmAppointment docId={id} apmt={user.date[sched].toDate()} />
       ) : null}
@@ -110,7 +119,20 @@ function ConfirmAppointment({ docId, apmt }) {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -118,27 +140,40 @@ function ConfirmAppointment({ docId, apmt }) {
     const apmtRef = firestore.collection("appointments");
     const selDate = apmt;
 
-    apmtRef.add({
-      "time": apmt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).toString(),
-      "day": selDate.getDate(),
-      "month": monthNames[selDate.getMonth()],
-      "year": selDate.getFullYear(),
-      "docId": docId,
-      "patientId": auth.currentUser.uid,
-      "notes": [],
-      "status": "ongoing",
-    }).then(() => {
-      console.log("Appointment successfully booked!");
-      handleCloseModal();
-    }).catch((error) => {
-      console.error("Error booking appointment: ", error);
-    })
-    navigate('/Home/HomePatient');
+    apmtRef
+      .add({
+        time: apmt
+          .toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })
+          .toString(),
+        day: selDate.getDate(),
+        month: monthNames[selDate.getMonth()],
+        year: selDate.getFullYear(),
+        docId: docId,
+        patientId: auth.currentUser.uid,
+        notes: [],
+        status: "ongoing",
+      })
+      .then(() => {
+        console.log("Appointment successfully booked!");
+        handleCloseModal();
+      })
+      .catch((error) => {
+        console.error("Error booking appointment: ", error);
+      });
+    navigate("/Home/HomePatient");
   };
 
   return (
     <>
-      <Button variant="secondary" className="btn btn-primary w-100 my-4" onClick={() => setShowModal(true)}>
+      <Button
+        variant="secondary"
+        className="btn btn-primary w-100 my-4"
+        onClick={() => setShowModal(true)}
+      >
         Book appointment
       </Button>
 
@@ -147,7 +182,10 @@ function ConfirmAppointment({ docId, apmt }) {
           <Modal.Title>Important Reminder</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Failure to go to your appointment will incur a charge of 500 pesos. This is due to the high volume of patients who want to settle an appointment. This fee shall be collected on your next visit in our clinic.
+          Failure to go to your appointment will incur a charge of 500 pesos.
+          This is due to the high volume of patients who want to settle an
+          appointment. This fee shall be collected on your next visit in our
+          clinic.
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
