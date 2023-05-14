@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
 
 function Navbar(props) {
   const navigate = useNavigate();
@@ -207,7 +206,7 @@ function Navbar(props) {
                 <li className="nav-item">
                   <NavLink
                     className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
+                      "nav-links" + (isActive ? "" : "activated")
                     }
                     onClick={handleShow}
                   >

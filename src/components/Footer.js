@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 function Footer(props) {
   const { isLoggedIn } = props;
-  const currentYear = new Date().getFullYear();
 
   return (
     isLoggedIn && (

@@ -25,8 +25,10 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      {children}
-      {/* <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} style={{ marginTop: "auto" }} /> */}
+      <div style={{ flex: "1 0 auto" }}>
+        {children}
+      </div>
+      {/* <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} style={{ bottom: "0", width: "100%" }} /> */}
     </div>
   );
 }
@@ -71,9 +73,9 @@ function App() {
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Contact" element={<Contact />} />
         </Routes>
-        
       </Layout>
     </BrowserRouter>
+    
   );
 }
 
