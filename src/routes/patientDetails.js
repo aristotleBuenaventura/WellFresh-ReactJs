@@ -38,7 +38,7 @@ function Status({ id }) {
     <>
       <button className="btn btn-primary" onClick={handleShowModal}>Mark as Done</button>
       <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>m
+        <Modal.Header closeButton>
           <Modal.Title>Confirm action</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to mark this appointment as done?</Modal.Body>

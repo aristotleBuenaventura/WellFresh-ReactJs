@@ -17,8 +17,8 @@ import AppointmentHistoryDoctor from './routes/appointmentHistoryDoctor';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
-import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
-import ProfileDoctor from './routes/ProfileDoctor';
+// import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
+// import ProfileDoctor from './routes/ProfileDoctor';
 
 
 
@@ -70,8 +70,8 @@ function App() {
           <Route path="/EditProfilePage" element={<EditProfilePage />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Contact" element={<Contact />} />
-          <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
-          <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
+          {/* <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
+          <Route path="/ProfileDoctor" element={<ProfileDoctor />} /> */}
         </Routes>
         
       </Layout>
