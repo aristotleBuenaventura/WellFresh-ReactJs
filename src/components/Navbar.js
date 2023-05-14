@@ -128,13 +128,13 @@ function Navbar(props) {
                 </li>
                 <li className="nav-item">
                   <NavLink
-                    to="/addAppoitnments"
+                    to="/AddAppointments"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Add Appoitnments
+                    Add Appointments
                   </NavLink>
                 </li>
               </>

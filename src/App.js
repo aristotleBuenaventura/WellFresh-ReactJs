@@ -14,6 +14,7 @@ import PatientDetails from './routes/patientDetails';
 import AppointmentHistoryPatient from './routes/appointmentHistoryPatient';
 import AppointmentList from './routes/appointmentList';
 import AppointmentHistoryDoctor from './routes/appointmentHistoryDoctor';
+import AddAppointments from './routes/AddAppointments';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
@@ -57,6 +58,7 @@ function App() {
           <Route path="/DoctorDetails" element={<DoctorDetails />} />
           <Route path="/AppointmentList" element={<AppointmentList />} />
           <Route path="/PatientDetails" element={<PatientDetails />} />
+          <Route path="/AddAppointments" element={<AddAppointments />} />
           <Route
             path="/AppointmentHistoryPatient"
             element={<AppointmentHistoryPatient />}
