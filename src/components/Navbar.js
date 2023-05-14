@@ -29,6 +29,8 @@ function Navbar(props) {
         navigate("/");
       })
       .catch((error) => alert(error.message));
+
+      handleClose();
   };
 
   const handleClose = () => setShowLogoutModal(false);
