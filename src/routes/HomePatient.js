@@ -101,9 +101,9 @@ function HomePatient() {
         <div className='col-6'>
             <h1>Let’s find your top doctor!</h1>
         </div>
-        <div className='col-12 col-sm-12 col-md-6'>
+        {/* <div className='col-12 col-sm-12 col-md-6'>
             <SearchBar/>
-        </div>
+        </div> */}
         <AllUsers/>
       </div>
       
