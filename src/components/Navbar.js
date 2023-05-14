@@ -5,11 +5,11 @@ import { GiRocketThruster } from "react-icons/gi";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IconContext } from "react-icons/lib";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import { auth, firestore } from '../firebase';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
+import { useNavigate } from "react-router-dom";
+import { auth, firestore } from "../firebase";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 function Navbar(props) {
   const navigate = useNavigate();
@@ -30,14 +30,13 @@ function Navbar(props) {
       })
       .catch((error) => alert(error.message));
 
-      handleClose();
+    handleClose();
   };
 
   const handleClose = () => setShowLogoutModal(false);
   const handleShow = () => setShowLogoutModal(true);
 
-
- useEffect(() => {
+  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
@@ -65,11 +64,9 @@ function Navbar(props) {
     return unsubscribe;
   }, []);
 
-
   if (!isLoggedIn) {
     return null;
   }
-  
 
   return (
     <>
@@ -77,131 +74,137 @@ function Navbar(props) {
         <IconContext.Provider value={{ color: "white" }}>
           <nav className="navbar">
             <div className="navbar-container container">
-              <Link to="/" className="navbar-logo mt-4 " onClick={closeMobileMenu}>
-                {/* <GiRocketThruster className="navbar-icon" />
-                <img src={logo} className="img-fluid" alt="Wellfresh" width="50" height="50" /> */}
-                <p className="h3">Well Fresh Dental Clinic</p>
-              </Link>
+              {userRole === "Doctor" && (
+                <>
+                  <Link
+                    to="/Home/HomeDoctor"
+                    className="navbar-logo mt-4 "
+                    onClick={closeMobileMenu}
+                  >
+                    <p className="h3">Well Fresh Dental Clinic</p>
+                  </Link>
+                </>
+              )}
+              {userRole === "Patient" && (
+                <>
+                  <Link
+                    to="/Home/HomePatient"
+                    className="navbar-logo mt-4 "
+                    onClick={closeMobileMenu}
+                  >
+                    <p className="h3">Well Fresh Dental Clinic</p>
+                  </Link>
+                </>
+              )}
               <div className="menu-icon" onClick={handleClick}>
                 {click ? <FaTimes /> : <FaBars />}
               </div>
               <ul className={click ? "nav-menu active" : "nav-menu"}>
-                {/* <li className="nav-item">
-                  <NavLink
-                    to="/home"
-                    className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
-                    }
-                    onClick={closeMobileMenu}
-                    >
-                Home
-              </NavLink>
-            </li> */}
-            {userRole === "Doctor" && (
-              <>
+                {userRole === "Doctor" && (
+                  <>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/home/HomeDoctor"
+                        className={({ isActive }) =>
+                          "nav-links" + (isActive ? " activated" : "")
+                        }
+                        onClick={closeMobileMenu}
+                      >
+                        Home
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+                {userRole === "Patient" && (
+                  <>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/home/HomePatient"
+                        className={({ isActive }) =>
+                          "nav-links" + (isActive ? " activated" : "")
+                        }
+                        onClick={closeMobileMenu}
+                      >
+                        Home
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+                {userRole === "Patient" && (
+                  <>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/Appointment"
+                        className={({ isActive }) =>
+                          "nav-links" + (isActive ? " activated" : "")
+                        }
+                        onClick={closeMobileMenu}
+                      >
+                        Appointment
+                      </NavLink>
+                    </li>
+                  </>
+                )}
+                {userRole === "Doctor" && (
+                  <>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/appointmentList"
+                        className={({ isActive }) =>
+                          "nav-links" + (isActive ? " activated" : "")
+                        }
+                        onClick={closeMobileMenu}
+                      >
+                        Appointments
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink
+                        to="/AddAppointments"
+                        className={({ isActive }) =>
+                          "nav-links" + (isActive ? " activated" : "")
+                        }
+                        onClick={closeMobileMenu}
+                      >
+                        Add Appointments
+                      </NavLink>
+                    </li>
+                  </>
+                )}
                 <li className="nav-item">
                   <NavLink
-                    to="/home/HomeDoctor"
+                    to="/EditProfilePage"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Home
+                    Edit Profile
                   </NavLink>
                 </li>
-              </>
-            )}
-            {userRole === "Patient" && (
-              <>
                 <li className="nav-item">
                   <NavLink
-                    to="/home/HomePatient"
+                    to="/Profile"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Home
+                    Profile
                   </NavLink>
                 </li>
-              </>
-            )}
-            {userRole === "Patient" && (
-              <>
                 <li className="nav-item">
                   <NavLink
-                    to="/Appointment"
+                    to="/contact"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
                     }
                     onClick={closeMobileMenu}
                   >
-                    Appointment
-                  </NavLink>
-                </li>
-              </>
-            )}
-            {userRole === "Doctor" && (
-              <>
-                <li className="nav-item">
-                  <NavLink
-                    to="/appointmentList"
-                    className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
-                    }
-                    onClick={closeMobileMenu}
-                  >
-                    Appointments
+                    Contact
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink
-                    to="/AddAppointments"
-                    className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
-                    }
-                    onClick={closeMobileMenu}
-                  >
-                    Add Appointments
-                  </NavLink>
-                </li>
-              </>
-            )}
-            <li className="nav-item">
-              <NavLink
-                to="/EditProfilePage"
-                className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-              >
-                Edit Profile
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/Profile"
-                className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-              >
-                Profile
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-              >
-                Contact
-              </NavLink>
-            </li>
-            <li className="nav-item">
                   <NavLink
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
@@ -211,12 +214,12 @@ function Navbar(props) {
                     Logout
                   </NavLink>
                 </li>
-          </ul>
-        </div>
-      </nav>
-    </IconContext.Provider>
-  )}
-  <Modal show={showLogoutModal} onHide={handleClose}>
+              </ul>
+            </div>
+          </nav>
+        </IconContext.Provider>
+      )}
+      <Modal show={showLogoutModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Logout Confirmation</Modal.Title>
         </Modal.Header>
@@ -230,8 +233,8 @@ function Navbar(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-</>
-);
+    </>
+  );
 }
 
 export default Navbar;
