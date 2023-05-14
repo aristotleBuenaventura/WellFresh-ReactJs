@@ -14,12 +14,12 @@ import PatientDetails from './routes/patientDetails';
 import AppointmentHistoryPatient from './routes/appointmentHistoryPatient';
 import AppointmentList from './routes/appointmentList';
 import AppointmentHistoryDoctor from './routes/appointmentHistoryDoctor';
+import AddAppointments from './routes/AddAppointments';
 import EditProfilePage from './routes/EditProfilePage';
 import Profile from './routes/Profile';
 import Contact from './routes/Contact';
 // import EditProfilePageDoctor from './routes/EditProfilePageDoctor';
 // import ProfileDoctor from './routes/ProfileDoctor';
-
 
 
 function Layout({ children, isLoggedIn, setIsLoggedIn }) {
@@ -34,7 +34,7 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   
 
@@ -58,6 +58,7 @@ function App() {
           <Route path="/DoctorDetails" element={<DoctorDetails />} />
           <Route path="/AppointmentList" element={<AppointmentList />} />
           <Route path="/PatientDetails" element={<PatientDetails />} />
+          <Route path="/AddAppointments" element={<AddAppointments />} />
           <Route
             path="/AppointmentHistoryPatient"
             element={<AppointmentHistoryPatient />}
@@ -70,8 +71,8 @@ function App() {
           <Route path="/EditProfilePage" element={<EditProfilePage />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Contact" element={<Contact />} />
-          {/* <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
-          <Route path="/ProfileDoctor" element={<ProfileDoctor />} /> */}
+          <Route path="/EditProfilePageDoctor" element={<EditProfilePageDoctor />} />
+          <Route path="/ProfileDoctor" element={<ProfileDoctor />} />
         </Routes>
         
       </Layout>

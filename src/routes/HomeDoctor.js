@@ -147,7 +147,11 @@ function HomeDoctor() {
           </h1>
         </div>
           <div className="col col-sm-6 col-md-4">
-            <button  className="btn btn-primary me-4"> Schedule</button>
+            <button onClick={() =>
+              navigate(
+                `/AddAppointments`
+              )
+            } className="btn btn-primary me-4"> Schedule</button>
           </div>
           <div className="col col-sm-6 col-md-4">
             <button onClick={() =>
