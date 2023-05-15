@@ -66,15 +66,11 @@ function ProfileDoctor() {
         </div>
         <div className="detailed">
           <FaEdit className="icon" />
-          <a href="#">Edit Profile</a>
+          <Link to="/EditProfilePage">Edit Profile</Link>
         </div>
         <div className="detailed">
           <FaCalendarAlt className="icon" />
           <a href="#">View Appointments</a>
-        </div>
-        <div className="detailed">
-          <FaShoppingCart className="icon" />
-          <a href="#">Purchase History</a>
         </div>
       </div>
     </div>

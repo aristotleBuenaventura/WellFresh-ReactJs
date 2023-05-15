@@ -172,17 +172,6 @@ function Navbar(props) {
                 )}
                 <li className="nav-item">
                   <NavLink
-                    to="/EditProfilePage"
-                    className={({ isActive }) =>
-                      "nav-links" + (isActive ? " activated" : "")
-                    }
-                    onClick={closeMobileMenu}
-                  >
-                    Edit Profile
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
                     to="/Profile"
                     className={({ isActive }) =>
                       "nav-links" + (isActive ? " activated" : "")
