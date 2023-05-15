@@ -122,7 +122,7 @@ function AddAppointments() {
 
   return (
     <div className="container">
-      <h1 className="text-center">Add Appointments</h1>
+      <h1 className="mt-5 mb-4">Add Appointments</h1>
       <form onSubmit={handleAddSchedule}>
         <div className="form-group mb-3">
           <label htmlFor="schedule">Schedule:</label>
