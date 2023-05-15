@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import logo from "../assets/logowork.png";
 
 function Navbar(props) {
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ function Navbar(props) {
                 <>
                   <Link
                     to="/Home/HomeDoctor"
-                    className="navbar-logo mt-4 "
+                    className="navbar-logo"
                     onClick={closeMobileMenu}
                   >
-                    <p className="h3">Well Fresh Dental Clinic</p>
+                    <img class="navbar-logo" src={logo} />
                   </Link>
                 </>
               )}
@@ -88,10 +89,10 @@ function Navbar(props) {
                 <>
                   <Link
                     to="/Home/HomePatient"
-                    className="navbar-logo mt-4 "
+                    className="navbar-logo"
                     onClick={closeMobileMenu}
                   >
-                    <p className="h3">Well Fresh Dental Clinic</p>
+                    <img class="navbar-logo" src={logo} />
                   </Link>
                 </>
               )}

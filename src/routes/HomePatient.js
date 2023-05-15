@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {auth, firestore,} from '../firebase';
 import { useNavigate } from 'react-router-dom';
-
+import '../WellFresh.css'
 
 function SearchBar() {
   const [query, setQuery] = useState('');
@@ -43,25 +43,25 @@ function AllUsers() {
 
   return (
     <div>
-    <h3 className='mt-4'>Doctors</h3>
-    <ul className='text-center list-unstyled row w-100'>
-        {users.map((user) => (
-        <li key={user.id} className='col-6 p-2'>
-            <button className="btn border" onClick={() => navigate(`/doctorDetails/?docId=${user.id}`)}>
-        <div className='row '>
-            <div className='col-12 col-lg-6'>
-            <div style={{ width: '150px', height: '150px' }}>
-              <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={user.imageUrl} alt={user.imageUrl} />
-            </div> 
+    <h6 className='wf-h6 fw-bold my-4'>Doctors</h6>
+    <ul className='list-unstyled row w-100'>
+      {users.map((user) => (
+        <li key={user.id} className='col-md-4 col-sm-12 p-1 m-0'>
+          <button className="btn border rounded w-100 p-3" onClick={() => navigate(`/doctorDetails/?docId=${user.id}`)}>
+            <div className='row'>
+              <div className='col-4'>
+                <div style={{ width: '84px', height: '84px' }}>
+                  <img className="rounded" style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={user.imageUrl} alt={user.imageUrl} />
+                </div> 
+              </div>
+              <div className='col-8 text-start'>
+                <p className='wf-title'>Dr. {user.lastname} {user.firstname}</p>
+                <p className='wf-subtitle'>Specialty: {user.specialties ? user.specialties[0] : 'Dentist'}</p>
+              </div>
             </div>
-            <div className='col'>
-            <p>Dr. {user.lastname} {user.firstname}</p>
-            <p>Specialty: {user.specialties ? user.specialties[0] : 'Dentist'}</p>
-            </div>
-        </div>
-        </button>
+          </button>
         </li>
-        ))}
+      ))}
     </ul>
     </div>
   );
@@ -96,18 +96,9 @@ function HomePatient() {
 
   return (
     <div className="container mt-5">
-        
-      <h1>Hi, {user.firstname} {user.lastname}</h1>
-      <div className='row'>
-        <div className='col-6'>
-            <h1>Let’s find your top doctor!</h1>
-        </div>
-        {/* <div className='col-12 col-sm-12 col-md-6'>
-            <SearchBar/>
-        </div> */}
-        <AllUsers/>
-      </div>
-      
+      <h2>Hi, {user.firstname} {user.lastname}</h2>
+      <h2>Let's find your top doctor!</h2>
+      <AllUsers />
     </div>
   );
 }

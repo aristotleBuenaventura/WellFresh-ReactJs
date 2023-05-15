@@ -24,7 +24,7 @@ function PatientInfo({ id }) {
 
   return (
     <div>
-      <p>{users.firstname}</p>
+      <p className="wf-title">{users.firstname + " " + users.lastname}</p>
     </div>
   );
 }
@@ -55,8 +55,8 @@ function PatientImage({ id }) {
 
 
   return (
-    <div style={{ width: '150px', height: '150px' }}>
-      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={users.imageUrl} alt="My Image" />
+    <div style={{ width: '84px', height: '84px' }}>
+      <img className="rounded" style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={users.imageUrl} alt="My Image" />
     </div>
   );
 }
@@ -92,28 +92,28 @@ function AllUsers({ id }) {
 
   return (
     <div>
-      <h3 className="mt-4">Upcoming Appointments</h3>
-      <ul className="text-center list-unstyled row w-100">
+      <h6 className="wf-h6 fw-bold my-4">Upcoming Appointments</h6>
+      <ul className="list-unstyled row w-100">
         {users.map((user) => (
-          <li key={user.id} className="col-6 p-2">
+          <li key={user.id} className="col-md-4 col-sm-12 p-1 m-0">
             <button
-              className="btn border"
+              className="btn border rounded w-100 p-3"
               onClick={() =>
                 navigate(
                   `/patientDetails/?patientId=${user.patientId}&month=${user.month}&day=${user.day}&year=${user.year}&time=${user.time}&appointmentId=${user.id}`
                 )
               }
             >
-              <div className="row ">
-                <div className="col-12 col-lg-6">
+              <div className="row">
+                <div className="col-4">
                   <PatientImage id={user.patientId} />
                 </div>
-                <div className="col">
+                <div className="col-8 text-start">
                   <PatientInfo id={user.patientId} />
-                  <p>
+                  <p className="wf-subtitle">
                     {user.month} {user.day}, {user.year}
                   </p>
-                  <p>{user.time}</p>
+                  <p className="wf-subtitle">{user.time}</p>
                 </div>
               </div>
             </button>
@@ -151,18 +151,18 @@ function AppointmentList() {
   return (
     <div className="container mt-5">
     <div className="row">
-        <div className="col-12 col-sm-12 col-md-4">
-          <h1>
+        <div className="col-12 col-sm-12 col-md-6">
+          <h2>
             Appointments
-          </h1>
+          </h2>
         </div>
-          <div className="col col-sm-6 col-md-4 mt-2">
-            <button onClick={() =>
-                navigate(
-                  `/AppointmentHistoryDoctor/?patientId=${id}`
-                )
-              } className="btn btn-primary me-4"> History</button>
-          </div>
+        <div className="col col-sm-6 col-md-6 d-flex justify-content-end">
+          <button className="wf-button wf-button-primary mx-1" onClick={() =>
+            navigate(
+              `/AppointmentHistoryDoctor/?patientId=${id}`
+            )
+          }> History</button>
+        </div>
       </div>
       <div className="row">
         <AllUsers id={id} />

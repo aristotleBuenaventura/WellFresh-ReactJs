@@ -25,7 +25,7 @@ function PatientInfo({ id }) {
 
   return (
     <div>
-      <p>{users.firstname}</p>
+      <p className="wf-title">{users.firstname}</p>
     </div>
   );
 }
@@ -58,8 +58,8 @@ function PatientImage({ id }) {
   const imgSrc = users.imageUrl ? users.imageUrl : dummy;
 
   return (
-    <div style={{ width: '150px', height: '150px' }}>
-      <img style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={imgSrc} alt={imgSrc} />
+    <div style={{ width: '84px', height: '84px' }}>
+      <img className="rounded" style={{ objectFit: 'cover', width: '100%', height: '100%' }} src={imgSrc} alt={imgSrc} />
     </div>
   );
 }
@@ -95,27 +95,27 @@ function AllUsers({ id }) {
 
   return (
     <div>
-      <ul className="text-center list-unstyled row w-100">
+      <ul className="list-unstyled row w-100">
         {users.map((user) => (
-          <li key={user.id} className="col-6 p-2">
+          <li key={user.id} className="col-md-4 cold-sm-12 p-1 m-0">
             <button
-              className="btn border"
+              className="btn border rounded w-100 p-3"
               onClick={() =>
                 navigate(
                   `/patientDetails/?patientId=${user.patientId}&month=${user.month}&day=${user.day}&year=${user.year}&time=${user.time}&appointmentId=${user.id}`
                 )
               }
             >
-              <div className="row ">
-                <div className="col-12 col-lg-6">
+              <div className="row">
+                <div className="col-4">
                   <PatientImage id={user.patientId} />
                 </div>
-                <div className="col">
+                <div className="col-8 text-start">
                   <PatientInfo id={user.patientId} />
-                  <p>
+                  <p className="wf-subtitle">
                     {user.month} {user.day}, {user.year}
                   </p>
-                  <p>{user.time}</p>
+                  <p className="wf-subtitle">{user.time}</p>
                 </div>
               </div>
             </button>
@@ -152,11 +152,11 @@ function AppointmentHistoryDoctor() {
 
   return (
     <div className="container mt-5">
-    <div className="row">
-        <div className="col-12 col-sm-12 col-md-4">
-          <h1>
+      <div className="row">
+        <div className="col-12 col-sm-12 col-md-4 my-3">
+          <h2>
             History
-          </h1>
+          </h2>
         </div>
       </div>
       <div className="row">

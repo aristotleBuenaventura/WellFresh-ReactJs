@@ -67,10 +67,7 @@ function Profile() {
           <FaEdit className="icon" />
           <Link to="/EditProfilePage">Edit Profile</Link>
         </div>
-        <div className="detailed">
-          <FaCalendarAlt className="icon" />
-          <a href="#">View Appointments</a>
-        </div>
+       
       </div>
     </div>
   );
