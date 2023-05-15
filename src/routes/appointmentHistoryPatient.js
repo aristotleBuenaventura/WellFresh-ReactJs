@@ -47,16 +47,21 @@ function AllUsers({ id }) {
     const fetchAllUsers = async () => {
       const usersRef = firestore.collection("appointments");
 
-      usersRef.onSnapshot((querySnapshot) => {
-        const usersData = [];
-        querySnapshot.forEach((doc) => {
-          const appointment = doc.data();
-          if (appointment.patientId === id && appointment.status === "done") {
+      usersRef
+        .where("patientId", "==", id)
+        .where("status", "==", "done")
+        .orderBy("year")
+        .orderBy("month")
+        .orderBy("day")
+        .orderBy("time")
+        .onSnapshot((querySnapshot) => {
+          const usersData = [];
+          querySnapshot.forEach((doc) => {
+            const appointment = doc.data();
             usersData.push({ id: doc.id, ...appointment });
-          }
+          });
+          setUsers(usersData);
         });
-        setUsers(usersData);
-      });
     };
 
     fetchAllUsers();

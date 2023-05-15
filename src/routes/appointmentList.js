@@ -63,30 +63,36 @@ function PatientImage({ id }) {
 
 function AllUsers({ id }) {
   const [users, setUsers] = useState([]);
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-useEffect(() => {
-  const usersRef = firestore.collection("appointments");
-  const unsubscribe = usersRef
-    .where("docId", "==", id)
-    .where("status", "==", "ongoing")
-    .onSnapshot((usersSnapshot) => {
-      const usersData = usersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setUsers(usersData);
-    });
+  useEffect(() => {
+    const usersRef = firestore.collection("appointments");
+    const unsubscribe = usersRef
+      .where("docId", "==", id)
+      .where("status", "==", "ongoing")
+      .onSnapshot((usersSnapshot) => {
+        const usersData = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersData);
+      });
 
-  return () => {
-    unsubscribe();
-  };
-}, [id]);
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
 
-
+  // Sort the users array by month, day, and time
+  users.sort((a, b) => {
+    const aDate = new Date(`${a.month} ${a.day} ${a.year} ${a.time}`);
+    const bDate = new Date(`${b.month} ${b.day} ${b.year} ${b.time}`);
+    return aDate - bDate;
+  });
 
   return (
     <div>
+      <h3 className="mt-4">Upcoming Appointments</h3>
       <ul className="text-center list-unstyled row w-100">
         {users.map((user) => (
           <li key={user.id} className="col-6 p-2">

@@ -63,23 +63,29 @@ function AllUsers({ id }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const usersRef = firestore.collection("appointments");
-  const unsubscribe = usersRef
-    .where("docId", "==", id)
-    .where("status", "==", "ongoing")
-    .onSnapshot((usersSnapshot) => {
-      const usersData = usersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setUsers(usersData);
-    });
+    const usersRef = firestore.collection("appointments");
+    const unsubscribe = usersRef
+      .where("docId", "==", id)
+      .where("status", "==", "ongoing")
+      .onSnapshot((usersSnapshot) => {
+        const usersData = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersData);
+      });
 
-  return () => {
-    unsubscribe();
-  };
-}, [id]);
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
 
+  // Sort the users array by month, day, and time
+  users.sort((a, b) => {
+    const aDate = new Date(`${a.month} ${a.day} ${a.year} ${a.time}`);
+    const bDate = new Date(`${b.month} ${b.day} ${b.year} ${b.time}`);
+    return aDate - bDate;
+  });
 
   return (
     <div>

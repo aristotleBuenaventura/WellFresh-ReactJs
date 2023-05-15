@@ -65,27 +65,33 @@ function PatientImage({ id }) {
 }
 
 function AllUsers({ id }) {
- const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-  const usersRef = firestore.collection("appointments");
-  const unsubscribe = usersRef
-    .where("docId", "==", id)
-    .where("status", "==", "done")
-    .onSnapshot((usersSnapshot) => {
-      const usersData = usersSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setUsers(usersData);
-    });
+    const usersRef = firestore.collection("appointments");
+    const unsubscribe = usersRef
+      .where("docId", "==", id)
+      .where("status", "==", "done")
+      .onSnapshot((usersSnapshot) => {
+        const usersData = usersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersData);
+      });
 
-  return () => {
-    unsubscribe();
-  };
-}, [id]);
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
 
+  // Sort the users array by month, day, and time
+  users.sort((a, b) => {
+    const aDate = new Date(`${a.month} ${a.day} ${a.year} ${a.time}`);
+    const bDate = new Date(`${b.month} ${b.day} ${b.year} ${b.time}`);
+    return aDate - bDate;
+  });
 
   return (
     <div>
@@ -94,6 +100,11 @@ function AllUsers({ id }) {
           <li key={user.id} className="col-6 p-2">
             <button
               className="btn border"
+              onClick={() =>
+                navigate(
+                  `/patientDetails/?patientId=${user.patientId}&month=${user.month}&day=${user.day}&year=${user.year}&time=${user.time}&appointmentId=${user.id}`
+                )
+              }
             >
               <div className="row ">
                 <div className="col-12 col-lg-6">
