@@ -181,9 +181,7 @@ function EditProfilePage() {
 
   return (
     <div className="card" id="bodycard">
-      <h6 className="card-title" style={{ textAlign: 'center', fontSize: '15px',  }}>
-  <i className="fas fa-user" style={{ marginRight: '8px' }}></i>Edit Profile
-</h6>
+   
 
       <div className="card-body">
         <div className="avatar">
@@ -307,7 +305,7 @@ function EditProfilePage() {
 
            </div>
             )}
-            <button type="submit" className="btn btn-update">
+            <button type="submit" className="btn btn-primary">
               Save
             </button>
           </form>
