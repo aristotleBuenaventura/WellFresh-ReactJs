@@ -15,7 +15,7 @@ function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
             <div key={index} className="border col-3 p-2">
               <p className="h6 fw-normal">{formatDate(schedule.toDate())}</p>
               <div className="btn-group" role="group" aria-label="Schedule Actions">
-                <button type="button" className="btn btn-success" onClick={() => handleEditSchedule(index)}>Edit</button>
+                <button type="button" className="btn btn-success me-3" onClick={() => handleEditSchedule(index)}>Edit</button>
                 <button type="button" className="btn btn-danger" onClick={() => handleDeleteSchedule(index)}>Delete</button>
               </div>
             </div>
@@ -103,10 +103,13 @@ function AddAppointments() {
   };
 
   const handleDeleteSchedule = async (index) => {
-    const userRef = firestore.collection("users").doc(id);
-    const updatedSchedules = [...schedules];
-    updatedSchedules.splice(index, 1);
+  const userRef = firestore.collection("users").doc(id);
+  const updatedSchedules = [...schedules];
+  updatedSchedules.splice(index, 1);
 
+  const confirmDelete = window.confirm("Are you sure you want to delete this schedule?");
+
+  if (confirmDelete) {
     await userRef.update({
       date: updatedSchedules,
     })
@@ -118,17 +121,25 @@ function AddAppointments() {
       });
 
     setSchedules(updatedSchedules);
-  };
+  }
+};
 
   return (
     <div className="container">
       <h1 className="mt-5 mb-4">Add Appointments</h1>
       <form onSubmit={handleAddSchedule}>
-        <div className="form-group mb-3">
-          <label htmlFor="schedule">Schedule:</label>
-          <input type="datetime-local" className="form-control" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
+        <div className="row mb-5">
+          <div className="col">
+          <div className="form-group mb-3">
+            <label htmlFor="schedule">Schedule:</label>
+            <input type="datetime-local" className="form-control" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
+          </div>
+          </div>
+          <div className="col">
+              <button type="submit" className="btn btn-primary mt-4">{editIndex !== null ? "Update" : "Add"}</button>
+          </div>
+          
         </div>
-        <button type="submit" className="btn btn-primary">{editIndex !== null ? "Update" : "Add"}</button>
       </form>
       <AllSchedules schedules={schedules} handleEditSchedule={handleEditSchedule} handleDeleteSchedule={handleDeleteSchedule} />
     </div>
