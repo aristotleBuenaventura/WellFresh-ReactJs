@@ -12,11 +12,13 @@ function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
       {schedules.length > 0 ? (
         <div className="text-center row">
           {schedules.map((schedule, index) => (
-            <div key={index} className="border col-3 p-2">
-              <p className="h6 fw-normal">{formatDate(schedule.toDate())}</p>
-              <div className="btn-group" role="group" aria-label="Schedule Actions">
-                <button type="button" className="btn btn-success" onClick={() => handleEditSchedule(index)}>Edit</button>
-                <button type="button" className="btn btn-danger" onClick={() => handleDeleteSchedule(index)}>Delete</button>
+            <div key={index} className="col-3 p-1">
+              <div className="border rounded p-2">
+                <p className="h6 fw-normal">{formatDate(schedule.toDate())}</p>
+                <div className="btn-group" role="group" aria-label="Schedule Actions">
+                  <button type="button" className="btn btn-success" onClick={() => handleEditSchedule(index)}>Edit</button>
+                  <button type="button" className="btn btn-danger" onClick={() => handleDeleteSchedule(index)}>Delete</button>
+                </div>
               </div>
             </div>
           ))}
@@ -126,9 +128,9 @@ function AddAppointments() {
       <form onSubmit={handleAddSchedule}>
         <div className="form-group mb-3">
           <label htmlFor="schedule">Schedule:</label>
-          <input type="datetime-local" className="form-control" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
+          <input type="datetime-local" className="form-control w-100" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
         </div>
-        <button type="submit" className="btn btn-primary">{editIndex !== null ? "Update" : "Add"}</button>
+        <button type="submit" className="btn btn-primary mb-4">{editIndex !== null ? "Update" : "Add"}</button>
       </form>
       <AllSchedules schedules={schedules} handleEditSchedule={handleEditSchedule} handleDeleteSchedule={handleDeleteSchedule} />
     </div>
