@@ -36,7 +36,7 @@ function Layout({ children, isLoggedIn, setIsLoggedIn }) {
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   
 
