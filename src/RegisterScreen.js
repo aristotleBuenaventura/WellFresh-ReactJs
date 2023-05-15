@@ -15,7 +15,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [role, setUserRole] = useState("patient");
+  const [role, setUserRole] = useState("Patient");
   const [errors, setErrors] = useState({});
   
   
@@ -233,21 +233,7 @@ const RegisterScreen = () => {
       />
     </Form.Group>
 
-    <Dropdown    className="mb-3">
-      <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-        {role === "patient" ? "Patient" : "Doctor"}
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => handleRoleSelect("patient")}>
-          Patient
-        </Dropdown.Item>
-        <Dropdown.Item onClick={() => handleRoleSelect("doctor")}>
-          Doctor
-        </Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-
+  
     
     <Button
                 variant="primary"
