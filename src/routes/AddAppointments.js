@@ -57,44 +57,39 @@ function AddAppointments() {
   }, []);
 
   const handleAddSchedule = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (schedule !== "") {
-      const timestamp = new Date(schedule);
-      const userRef = firestore.collection("users").doc(id);
+  if (schedule !== "") {
+    const timestamp = new Date(schedule);
+    const userRef = firestore.collection("users").doc(id);
 
-      if (editIndex !== null) {
-        const updatedSchedules = [...schedules];
-        updatedSchedules[editIndex] = timestamp;
+    if (editIndex !== null) {
+      const updatedSchedules = [...schedules];
+      updatedSchedules[editIndex] = timestamp;
 
-        try {
-          await userRef.update({
-            date: updatedSchedules,
-          });
-          console.log("Schedule updated!");
-          setEditIndex(null);
-        } catch (error) {
-          console.error("Error updating schedule: ", error);
-        }
-      } else {
-        const updatedSchedules = [...schedules, timestamp];
+      await userRef.update({
+        date: updatedSchedules,
+      });
 
-        try {
-          await userRef.update({
-            date: updatedSchedules,
-          });
-          console.log("Schedule added!");
-        } catch (error) {
-          console.error("Error adding schedule: ", error);
-        }
-      }
-
-      setSchedules(updatedSchedules);
-      setSchedule("");
+      console.log("Schedule updated!");
+      setEditIndex(null);
     } else {
-      console.log("Error: Schedule not set");
+      const updatedSchedules = [...schedules, timestamp];
+
+      await userRef.update({
+        date: updatedSchedules,
+      });
+
+      console.log("Schedule added!");
     }
-  };
+
+    setSchedules(updatedSchedules);
+    setSchedule("");
+  } else {
+    console.log("Error: Schedule not set");
+  }
+};
+
 
   const handleEditSchedule = (index) => {
     setEditIndex(index);
