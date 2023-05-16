@@ -4,7 +4,6 @@ import Home from './routes/Home';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import About from './routes/About';
 import HomePatient from './routes/HomePatient'
 import DoctorDetails from './routes/doctorDetails';

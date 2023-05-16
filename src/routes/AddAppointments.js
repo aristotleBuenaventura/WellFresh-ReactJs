@@ -29,13 +29,12 @@ function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
 }
 
 function AddAppointments() {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null); // changed the initial value to null
   const [id, setID] = useState("");
   const [schedules, setSchedules] = useState([]);
   const [schedule, setSchedule] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [updatedSchedules, setUpdatedSchedules] = useState([]);
-
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -68,28 +67,26 @@ function AddAppointments() {
         const updatedSchedules = [...schedules];
         updatedSchedules[editIndex] = timestamp;
 
-        await userRef.update({
-          date: updatedSchedules,
-        })
-          .then(() => {
-            console.log("Schedule updated!");
-            setEditIndex(null);
-          })
-          .catch((error) => {
-            console.error("Error updating schedule: ", error);
+        try {
+          await userRef.update({
+            date: updatedSchedules,
           });
+          console.log("Schedule updated!");
+          setEditIndex(null);
+        } catch (error) {
+          console.error("Error updating schedule: ", error);
+        }
       } else {
         const updatedSchedules = [...schedules, timestamp];
 
-        await userRef.update({
-          date: updatedSchedules,
-        })
-          .then(() => {
-            console.log("Schedule added!");
-          })
-          .catch((error) => {
-            console.error("Error adding schedule: ", error);
+        try {
+          await userRef.update({
+            date: updatedSchedules,
           });
+          console.log("Schedule added!");
+        } catch (error) {
+          console.error("Error adding schedule: ", error);
+        }
       }
 
       setSchedules(updatedSchedules);
@@ -105,25 +102,26 @@ function AddAppointments() {
   };
 
   const handleDeleteSchedule = async (index) => {
+  const confirmation = window.confirm("Are you sure you want to delete this schedule?");
+  if (!confirmation) {
+    return;
+  }
+
   const userRef = firestore.collection("users").doc(id);
   const updatedSchedules = [...schedules];
   updatedSchedules.splice(index, 1);
 
-  const confirmDelete = window.confirm("Are you sure you want to delete this schedule?");
-
-  if (confirmDelete) {
-    await userRef.update({
-      date: updatedSchedules,
+  await userRef.update({
+    date: updatedSchedules,
+  })
+    .then(() => {
+      console.log("Schedule deleted!");
     })
-      .then(() => {
-        console.log("Schedule deleted!");
-      })
-      .catch((error) => {
-        console.error("Error deleting schedule: ", error);
-      });
+    .catch((error) => {
+      console.error("Error deleting schedule: ", error);
+    });
 
-    setSchedules(updatedSchedules);
-  }
+  setSchedules(updatedSchedules);
 };
 
   return (

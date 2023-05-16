@@ -130,11 +130,11 @@ function Navbar(props) {
                     </li>
                   </>
                 )}
-                {userRole === "Patient" && (
+                {/* {userRole === "Patient" && (
                   <>
                     <li className="nav-item">
                       <NavLink
-                        to="/Appointment"
+                        to="/AppointmentPatient"
                         className={({ isActive }) =>
                           "nav-links" + (isActive ? " activated" : "")
                         }
@@ -144,7 +144,7 @@ function Navbar(props) {
                       </NavLink>
                     </li>
                   </>
-                )}
+                )} */}
                 {userRole === "Doctor" && (
                   <>
                     <li className="nav-item">

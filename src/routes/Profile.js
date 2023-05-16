@@ -7,6 +7,7 @@ import "./Profile.css";
 
 function Profile() {
   const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
@@ -23,6 +24,7 @@ function Profile() {
         if (doc.exists) {
           const userData = doc.data();
           setFirstName(userData.firstname);
+          setLastName(userData.lastname);
           setEmail(userData.email);
           setPhoneNumber(userData.phoneNumber);
           setGender(userData.gender);
@@ -49,7 +51,7 @@ function Profile() {
       <div className="info">
         <div className="detailed">
           <FaUser className="icon" />
-          <p>{firstname}</p>
+          <p>{firstname} {lastname}</p>
         </div>
         <div className="detailed">
           <AiOutlineUser className="icon" />

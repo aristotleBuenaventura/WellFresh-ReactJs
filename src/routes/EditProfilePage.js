@@ -7,7 +7,6 @@ import { BsPencilSquare, BsTrash } from 'react-icons/bs';
 function EditProfilePage() {
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
-  const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [imageUrl, setImageUrl] = useState('');
@@ -35,7 +34,6 @@ function EditProfilePage() {
           const userData = doc.data();
           setFirstName(userData.firstname);
           setLastName(userData.lastname);
-          setEmail(userData.email);
           setGender(userData.gender);
           setPhoneNumber(userData.phoneNumber);
           setImageUrl(userData.imageUrl);
@@ -140,7 +138,6 @@ function EditProfilePage() {
         const updatedData = {
           firstname: firstname,
           lastname: lastname,
-          email: email,
           gender: gender,
           phoneNumber: phoneNumber,
           biography: userRole === 'Doctor' ? biography : '',
@@ -155,7 +152,6 @@ function EditProfilePage() {
           const isProfileUpdated =
             userData.firstname !== updatedData.firstname ||
             userData.lastname !== updatedData.lastname ||
-            userData.email !== updatedData.email ||
             userData.gender !== updatedData.gender ||
             userData.phoneNumber !== updatedData.phoneNumber ||
             (userRole === 'Doctor' &&
@@ -215,17 +211,6 @@ function EditProfilePage() {
                 placeholder="Last Name"
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="email"></label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="Email"
-              />
-            </div>
             <div className="form-group1">
               <label htmlFor="gender"></label>
               <select
@@ -261,7 +246,7 @@ function EditProfilePage() {
                     value={biography}
                     onChange={(event) => setBiography(event.target.value)}
                     placeholder="Biography"
-                      
+                    rows="5"  
                     required
                   />
                 </div>
