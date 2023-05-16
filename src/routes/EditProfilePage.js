@@ -3,6 +3,7 @@ import { auth, firestore, storage } from '../firebase';
 import './EditProfilePage.css'; // Update the path here
 import { Modal } from 'react-bootstrap';
 import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+import Form from 'react-bootstrap/Form';
 
 function EditProfilePage() {
   const [firstname, setFirstName] = useState('');
@@ -176,7 +177,7 @@ function EditProfilePage() {
   };
 
   return (
-    <div className="card" id="bodycard">
+    <div className="card mb-5" id="bodycard">
 
 
       <div className="card-body">
@@ -187,7 +188,7 @@ function EditProfilePage() {
             <span className="file-button">Upload Image</span>
           </label>
         </div>
-        <div>
+        <div className="p-3">
           <form onSubmit={handleSubmit}>
             <div className="form-group m-0">
               <label htmlFor="firstName"></label>
@@ -284,7 +285,7 @@ function EditProfilePage() {
                 </div>
               </div>
             )}
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-primary mt-3">
               Save changes
             </button>
           </form>
@@ -297,19 +298,21 @@ function EditProfilePage() {
           <Modal.Title>Add Specialty</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input
+          {/* <input
             type="text"
             value={newSpecialty}
             onChange={(event) => setNewSpecialty(event.target.value)}
             placeholder="Add Specialty"
-          />
+          /> */}
+          <Form.Control type="text" placeholder="Enter the Note" value={newSpecialty} onChange={(e) => setNewSpecialty(e.target.value)} style={{width: '100%', height: 'auto'}} />
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary" onClick={handleAddSpecialty}>
-            Add
-          </button>
+          
           <button className="btn btn-secondary" onClick={closeAddModal}>
             Cancel
+          </button>
+          <button className="btn btn-success" onClick={handleAddSpecialty}>
+            Add
           </button>
         </Modal.Footer>
       </Modal>
@@ -320,20 +323,22 @@ function EditProfilePage() {
           <Modal.Title>Edit Specialty</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <input
+          {/* <input
             type="text"
             value={editedSpecialty}
             onChange={(event) => setEditedSpecialty(event.target.value)}
             placeholder="Edit Specialty"
-          />
+          /> */}
+           <Form.Control type="text" placeholder="Enter the Note" value={editedSpecialty} onChange={(e) => setEditedSpecialty(e.target.value)} style={{width: '100%', height: 'auto'}} />
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-primary" onClick={handleEditSpecialty}>
-            Save Changes
-          </button>
           <button className="btn btn-secondary" onClick={closeEditModal}>
             Cancel
           </button>
+          <button className="btn btn-success" onClick={handleEditSpecialty}>
+            Save Changes
+          </button>
+          
         </Modal.Footer>
       </Modal>
     </div>
