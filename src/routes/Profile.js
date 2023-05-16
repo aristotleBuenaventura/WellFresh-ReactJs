@@ -4,6 +4,7 @@ import { AiOutlineMail, AiOutlinePhone, AiOutlineUser } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { auth, firestore } from "../firebase";
 import "./Profile.css";
+import "../WellFresh.css";
 
 function Profile() {
   const [firstname, setFirstName] = useState("");
@@ -40,36 +41,35 @@ function Profile() {
 
   return (
     <div className="profilescreen">
-      <div className="card">
+      <div className="card mb-3">
         <div className="card-body">
           <div className="profilescreen-header">
             <img src={imageUrl} alt="Profile" />
           </div>
         </div>
       </div>
-
       <div className="info">
         <div className="detailed">
           <FaUser className="icon" />
-          <p>{firstname} {lastname}</p>
+          <p className="wf-subtext">{firstname} {lastname}</p>
         </div>
         <div className="detailed">
           <AiOutlineUser className="icon" />
-          <p>{gender}</p>
+          <p className="wf-subtext">{gender}</p>
         </div>
         <div className="detailed">
           <AiOutlineMail className="icon" />
-          <p>{email}</p>
+          <p className="wf-subtext">{email}</p>
         </div>
         <div className="detailed">
           <AiOutlinePhone className="icon" />
-          <p>{phoneNumber}</p>
+          <p className="wf-subtext">{phoneNumber}</p>
         </div>
-        <div className="detailed">
-          <FaEdit className="icon" />
-          <Link to="/EditProfilePage">Edit Profile</Link>
-        </div>
-       
+      </div>
+      <div className="d-flex justify-content-start my-3">
+        <button className="wf-button wf-button-primary">
+          <Link className="text-white" to="/EditProfilePage">Edit Profile</Link>
+        </button>
       </div>
     </div>
   );

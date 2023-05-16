@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth, firestore } from "../firebase";
 
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+
 function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
   const formatDate = (dateString) => {
     const options = { month: "long", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" };
@@ -10,14 +12,24 @@ function AllSchedules({ schedules, handleEditSchedule, handleDeleteSchedule }) {
   return (
     <div>
       {schedules.length > 0 ? (
-        <div className="text-center row">
+        <div className="row">
           {schedules.map((schedule, index) => (
-            <div key={index} className="col-3 p-1">
-              <div className="border rounded p-2">
-                <p className="h6 fw-normal">{formatDate(schedule.toDate())}</p>
-                <div className="" role="group" aria-label="Schedule Actions">
-                  <button type="button" className="btn btn-success me-5" onClick={() => handleEditSchedule(index)}>Edit</button>
-                  <button type="button" className="btn btn-danger" onClick={() => handleDeleteSchedule(index)}>Delete</button>
+            <div key={index} className="col-4 p-1">
+              <div className="border rounded px-3 py-2">
+                <div className="row d-flex align-items-center">
+                  <div className="col-6 text-start">
+                    <p className="wf-subtext fw-normal">{formatDate(schedule.toDate())}</p>
+                  </div>
+                  <div className="col-6 d-flex justify-content-end">
+                    <div className="" role="group" aria-label="Schedule Actions">
+                      <button type="button" className="btn" onClick={() => handleEditSchedule(index)}>
+                        <BsPencilSquare className="edit-icon" />
+                      </button>
+                      <button type="button" className="btn" onClick={() => handleDeleteSchedule(index)}>
+                        <BsTrash className="delete-icon" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -121,13 +133,13 @@ function AddAppointments() {
 
   return (
     <div className="container">
-      <h1 className="mt-5 mb-4">Add Appointments</h1>
+      <h3 className="mt-5 mb-4">Add Appointments</h3>
       <form onSubmit={handleAddSchedule}>
         <div className="form-group mb-3">
-          <label htmlFor="schedule">Schedule:</label>
-          <input type="datetime-local" className="form-control w-100" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
+          <label htmlFor="schedule" className="wf-text mb-2">Schedule:</label>
+          <input type="datetime-local" className="form-control wf-input w-100" id="schedule" value={schedule} onChange={(e) => setSchedule(e.target.value)} />
         </div>
-        <button type="submit" className="btn btn-primary mb-4">{editIndex !== null ? "Update" : "Add"}</button>
+        <button type="submit" className="wf-button wf-button-primary mb-4">{editIndex !== null ? "Update schedule" : "Add schedule"}</button>
       </form>
       <AllSchedules schedules={schedules} handleEditSchedule={handleEditSchedule} handleDeleteSchedule={handleDeleteSchedule} />
     </div>

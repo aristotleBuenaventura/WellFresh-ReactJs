@@ -7,6 +7,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
+import { BsPencilSquare, BsTrash } from 'react-icons/bs';
+
 
 function Status({ id }) {
   const [showModal, setShowModal] = useState(false);
@@ -137,9 +139,9 @@ function EditNote({ id, index, currentValue }) {
 
   return (
     <>
-      <Button variant="secondary" className="btn btn-success" onClick={() => setShowModal(true)}>
-        Edit
-      </Button>
+      <button className="btn" onClick={() => setShowModal(true)}>
+        <BsPencilSquare className="edit-icon" />
+      </button>
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -220,22 +222,24 @@ function AppointmentNotes({ id }) {
     <div>
       {notes.notes ? (
         <ul className="list-unstyled">
-          <div className="row mt-4 ">
+          <div className="row mt-4">
             {notes.notes.map((note, index) => (
-              <div className="col-12 border border-secondary border-3 rounded me-5 mt-2 p-2">
-                <div className="row">
-                  <div className="col ">
-                    <li key={note}>{note}</li>
-                  </div>
-                  <div className="col">
-                    <div className="d-flex justify-content-end">
-                      <button
-                        className="btn btn-danger me-3"
-                        onClick={() => handleDeleteNote(index)}
-                      >
-                        Delete
-                      </button>
-                    <EditNote id={id} index={index} currentValue={note}/>
+              <div className="col-6 p-1">
+                <div className="border rounded px-3 py-2">
+                  <div className="row">
+                    <div className="col d-flex align-items-center">
+                      <li className="fw-normal m-0" key={note}>{note}</li>
+                    </div>
+                    <div className="col">
+                      <div className="d-flex justify-content-end">
+                        <button
+                          className="btn me-2"
+                          onClick={() => handleDeleteNote(index)}
+                        >
+                          <BsTrash className="delete-icon" />
+                        </button>
+                      <EditNote id={id} index={index} currentValue={note}/>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -348,7 +352,6 @@ const imgSrc = user.imageUrl ? user.imageUrl : dummy;
           <AppointmentNotes id={appointmentId} />
         </div>
         <div className="text-center mt-4">
-          
           <Status id={appointmentId} />
         </div>
       </div>

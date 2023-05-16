@@ -1,3 +1,7 @@
+.wf-text-primary {
+  color: #51a8ff !important;
+}
+
 .wf-button {
   background-color: transparent;
   border: 0;
@@ -17,6 +21,14 @@
   background-color: #4295e9;
 }
 
+.wf-text {
+  font-size: 1rem;
+}
+
+.wf-subtext {
+  font-size: 0.9rem;
+}
+
 .wf-h6 {
   font-size: 1.15rem;
   text-transform: none;
@@ -31,4 +43,10 @@
   font-size: 0.8rem;
   font-weight: normal;
   color: #7b7b7b;
+}
+
+.wf-input {
+  font-size: 1rem !important;
+  border: 1px solid #a8b8c8 !important;
+  border-radius: 8px !important;
 }

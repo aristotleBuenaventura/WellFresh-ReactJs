@@ -26,7 +26,7 @@ function DoctorInfo({ id }) {
 
   return (
     <div>
-      <p>
+      <p className="wf-subtitle">
         Dr. {users.lastname} {users.firstname}
       </p>
     </div>
@@ -69,23 +69,23 @@ function AllUsers({ id }) {
 
   return (
     <>
-      <ul className="text-center list-unstyled row w-100">
+      <ul className="list-unstyled row w-100">
         {users.map((user) => (
-          <li key={user.id} className="col-6 p-2">
+          <li key={user.id} className="col-md-4 col-sm-12 p-1 m-0">
             <button
-              className="btn border"
+              className="btn border rounded w-100 p-3"
               onClick={() => handleViewNotes(user.notes)}
             >
               <div className="row">
-                <div className="col">
-                  <p className="fw-bold">
+                <div className="col text-start">
+                  <p className="wf-title fw-bold">
                     {user.month} {user.day}, {user.year}
                   </p>
-                  <p className="text-primary">{user.time}</p>
+                  <p className="wf-subtitle wf-text-primary fw-bold">{user.time}</p>
                   <DoctorInfo id={user.docId} />
                 </div>
-                <div className="col d-flex align-items-center justify-content-center">
-                  <button className="btn border btn-success">View Notes</button>
+                <div className="col d-flex align-items-center justify-content-end">
+                  <button className="wf-button wf-button-primary">View Notes</button>
                 </div>
               </div>
             </button>
@@ -100,7 +100,9 @@ function AllUsers({ id }) {
           {selectedNotes.length > 0 ? (
             <ul>
               {selectedNotes.map((note, index) => (
-                <li key={index}>{note}</li>
+                <div className="border rounded p-3 my-2 shadow-sm">
+                  <li key={index}>{note}</li>
+                </div>
               ))}
             </ul>
           ) : (

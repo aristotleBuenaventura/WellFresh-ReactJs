@@ -20,7 +20,7 @@ function EditProfilePage() {
   const [editedSpecialty, setEditedSpecialty] = useState('');
   const [editedSpecialtyIndex, setEditedSpecialtyIndex] = useState(-1);
   const [specialtiesChanged, setSpecialtiesChanged] = useState(false);
-  
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -52,7 +52,7 @@ function EditProfilePage() {
   }, []);
 
 
-  
+
 
   const handleImageChange = (event) => {
     setImageFile(event.target.files[0]);
@@ -105,7 +105,7 @@ function EditProfilePage() {
       alert('Specialty added successfully!');
     }
   };
-  
+
   const handleEditSpecialty = () => {
     if (editedSpecialty.trim() !== '') {
       const updatedSpecialties = [...specialties];
@@ -118,7 +118,7 @@ function EditProfilePage() {
       }
     }
   };
-  
+
   const handleDeleteSpecialty = (index) => {
     const updatedSpecialties = [...specialties];
     if (updatedSpecialties[index]) {
@@ -132,7 +132,7 @@ function EditProfilePage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const user = auth.currentUser;
-  
+
     if (user) {
       try {
         const updatedData = {
@@ -143,10 +143,10 @@ function EditProfilePage() {
           biography: userRole === 'Doctor' ? biography : '',
           specialties: userRole === 'Doctor' ? specialties : [],
         };
-  
+
         const docRef = firestore.collection('users').doc(user.uid);
         const doc = await docRef.get();
-  
+
         if (doc.exists) {
           const userData = doc.data();
           const isProfileUpdated =
@@ -157,15 +157,15 @@ function EditProfilePage() {
             (userRole === 'Doctor' &&
               (userData.biography !== updatedData.biography ||
                 JSON.stringify(userData.specialties) !== JSON.stringify(updatedData.specialties)));
-  
+
           if (isProfileUpdated) {
             await docRef.update(updatedData);
             alert('Your profile has been successfully updated!');
-          } 
+          }
         } else {
           console.log('No such document!');
         }
-  
+
         if (imageFile) {
           await handleUpdateImage();
         }
@@ -177,7 +177,7 @@ function EditProfilePage() {
 
   return (
     <div className="card" id="bodycard">
-   
+
 
       <div className="card-body">
         <div className="avatar">
@@ -189,32 +189,32 @@ function EditProfilePage() {
         </div>
         <div>
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="form-group m-0">
               <label htmlFor="firstName"></label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control wf-input"
                 id="firstName"
                 value={firstname}
                 onChange={(event) => setFirstName(event.target.value)}
                 placeholder="First Name"
               />
             </div>
-            <div className="form-group">
+            <div className="form-group m-0">
               <label htmlFor="lastName"></label>
               <input
                 type="text"
-                className="form-control"
+                className="form-control wf-input"
                 id="lastName"
                 value={lastname}
                 onChange={(event) => setLastName(event.target.value)}
                 placeholder="Last Name"
               />
             </div>
-            <div className="form-group1">
+            <div className="form-group m-0">
               <label htmlFor="gender"></label>
               <select
-                className="form-control"
+                className="form-control wf-input"
                 id="gender"
                 value={gender}
                 onChange={(event) => setGender(event.target.value)}
@@ -224,11 +224,11 @@ function EditProfilePage() {
                 <option value="Other">Other</option>
               </select>
             </div>
-            <div className="form-group">
+            <div className="form-group m-0">
               <label htmlFor="phoneNumber"></label>
               <input
                 type="tel"
-                className="form-control"
+                className="form-control wf-input"
                 id="phoneNumber"
                 value={phoneNumber}
                 onChange={(event) => setPhoneNumber(event.target.value)}
@@ -237,61 +237,55 @@ function EditProfilePage() {
             </div>
             {userRole === 'Doctor' && (
               <div>
-                <div className="form-group">
-                
+                <div className="form-group m-0">
                   <label htmlFor="biography"></label>
                   <textarea
-                    className="form-control"
+                    className="form-control wf-input"
                     id="biography"
                     value={biography}
                     onChange={(event) => setBiography(event.target.value)}
                     placeholder="Biography"
-                    rows="5"  
+                    rows="5"
                     required
                   />
                 </div>
-               
                 <div className="form-group">
-  <div className="add-specialty">
-  <label htmlFor="specialties" style={{ marginLeft: '10px' }}>
-    Specialties:
-  </label>
-
-    <button className="btn btn-add" onClick={openAddModal}>
-      Add Specialty
-    </button>
-  </div>
- 
-
-<div className="specialties-container flex-column">
-  {specialties.map((specialty, index) => (
-    <div key={index} className="specialty-card">
-      <div className="specialty-info">
-        <div className="specialty-title">{specialty}</div>
-      </div>
-      <div className="specialty-icons">
-        <button
-          className="btn btn-edit"
-          onClick={() => openEditModal(index, specialty)}
-        >
-          <BsPencilSquare className="edit-icon" />
-        </button>
-        <button
-          className="btn btn-delete"
-          onClick={() => handleDeleteSpecialty(index)}
-        >
-          <BsTrash className="delete-icon" />
-        </button>
-      </div>
-    </div>
-  ))}
-</div>
-</div>
-
-           </div>
+                  <div className="add-specialty">
+                    <label htmlFor="specialties" style={{ marginLeft: '10px' }}>
+                      Specialties:
+                    </label>
+                    <button className="btn btn-add" onClick={openAddModal}>
+                      Add Specialty
+                    </button>
+                  </div>
+                  <div className="specialties-container flex-column">
+                    {specialties.map((specialty, index) => (
+                      <div key={index} className="specialty-card border rounded px-3 py-2">
+                        <div className="specialty-info text-start">
+                          <div className="wf-subtext">{specialty}</div>
+                        </div>
+                        <div className="specialty-icons">
+                          <button
+                            className="btn"
+                            onClick={() => openEditModal(index, specialty)}
+                          >
+                            <BsPencilSquare className="edit-icon" />
+                          </button>
+                          <button
+                            className="btn"
+                            onClick={() => handleDeleteSpecialty(index)}
+                          >
+                            <BsTrash className="delete-icon" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             )}
             <button type="submit" className="btn btn-primary">
-              Save
+              Save changes
             </button>
           </form>
         </div>

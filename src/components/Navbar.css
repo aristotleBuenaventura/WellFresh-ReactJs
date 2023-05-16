@@ -79,8 +79,8 @@
 }
 
 .activated {
-  border-bottom-color: #66B2FF;
-  color: #66B2FF;
+  border-bottom-color: #66B2FF !important;
+  color: #66B2FF !important;
   text-decoration: none;
   font-weight: bold;
 }
